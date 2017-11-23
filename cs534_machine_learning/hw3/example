@@ -1,0 +1,13 @@
+#!/usr/bin/env python
+
+from collections import defaultdict
+
+best = defaultdict(lambda: defaultdict(float))
+best[0]["<s>"] = 1
+back = defaultdict(dict)
+
+words = "<s> a can can can a can </s>".split()
+
+tags = {"a": ["D"], "can": ["N", "A", "V"], "</s>": ["</s>"]}
+ptag = {"D": {"N": 1}, "V": {"</s>": 0.5, "D": 0.5}, }
+
