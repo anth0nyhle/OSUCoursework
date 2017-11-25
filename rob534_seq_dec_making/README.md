@@ -4,6 +4,7 @@
 Instructor: Prof. Geoffrey Hollinger
 
 3 homework assignments
+
 1 final research project
 
 MATLAB
