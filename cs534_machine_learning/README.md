@@ -6,4 +6,4 @@ Instructor: Prof. Liang Huang
 
 1 final project
 
-Python 2.7
+Python 2.7 or 3.6
