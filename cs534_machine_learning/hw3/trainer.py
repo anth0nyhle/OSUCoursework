@@ -6,7 +6,7 @@ import sys
 import time
 import copy
 import matplotlib.pyplot as plt
-# plt.switch_backend('agg')
+plt.switch_backend('agg')
 from tagger import readfile, mle, decode, test
 from tagger_tri import readfile_tri, mle_tri, decode_tri, test_tri
 
