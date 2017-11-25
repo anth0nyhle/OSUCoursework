@@ -1,3 +1,3 @@
-# osu_coursework
+# OSU Coursework
 
 homework assignments and code from osu coursework
