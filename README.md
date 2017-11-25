@@ -1,3 +1,5 @@
-# OSU Coursework
+# Oregon State University Coursework
 
-homework assignments and code from osu coursework
+Homework assignments, final projects, and code from graduate school coursework
+
+Python; MATLAB
