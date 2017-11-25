@@ -1,5 +1,6 @@
 
-ROB 534: Sequential Decision Making in Robotics
+#ROB 534: Sequential Decision Making in Robotics
+
 Instructor: Prof. Geoffrey Hollinger
 
 3 homework assignments
