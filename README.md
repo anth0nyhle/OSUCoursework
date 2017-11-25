@@ -1,4 +1,4 @@
-# Oregon State University Coursework
+# OSU Coursework
 
 Homework assignments, final projects, and code from graduate school coursework
 
