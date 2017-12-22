@@ -1,1 +1,1 @@
-Refer to the iceberg_classifer repo
+Refer to the iceberg_classifier repo in the main directory
