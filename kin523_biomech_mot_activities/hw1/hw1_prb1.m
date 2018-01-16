@@ -39,13 +39,13 @@ hand_marks = [r_MH3, r_MH5, r_WRI];
 unit_vecs = [i, j, k];
 
 % transpose of unit vector matrix
-inv_unit_vecs = transpose(unit_vecs);
+tp_unit_vecs = transpose(unit_vecs);
 
 % global origin
 XYZ = [0; 0; 0];
 
 % wrist joint center position in local hand xyz
-WJC_xyz = inv_unit_vecs * (WJC - r_WRI);
+WJC_xyz = tp_unit_vecs * (WJC - r_WRI);
 
 % unit vector for hand's anterior axis in global XYZ
 e_XYZ = [0; 0; -1];
@@ -83,7 +83,3 @@ e_ijk = unit_vecs \ e_XYZ;
 % plot3(i_vec(1, :), i_vec(2, :), i_vec(3, :));
 % plot3(j_vec(1, :), j_vec(2, :), j_vec(3, :));
 % plot3(k_vec(1, :), k_vec(2, :), k_vec(3, :));
-%% Problem 2
-close all;
-clear;
-
