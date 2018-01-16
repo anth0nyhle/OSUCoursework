@@ -1,5 +1,5 @@
 % Created by: Anthony Le
-% Last updated: 01.15.2018
+% Last updated: 01.16.2018
 
 % KIN 523: Homework 1 - Vector Math and Describing Human Motion
 % Due: 01.18.2018 by 7PM
