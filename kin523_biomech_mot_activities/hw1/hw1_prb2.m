@@ -59,6 +59,9 @@ UNIT_VECS_rs2 = permute(UNIT_VECS_stacked, [3, 2, 1]);
 
 % global XYZ origin
 XYZ = [0, 0, 0];
+X = [1, 0, 0];
+Y = [0, 1, 0];
+Z = [0, 0, 1];
 
 % create empty arrays
 WJC_xyz = [];

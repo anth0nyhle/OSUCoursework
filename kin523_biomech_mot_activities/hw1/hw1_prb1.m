@@ -48,6 +48,9 @@ tp_unit_vecs = transpose(unit_vecs);
 
 % global XYZ origin
 XYZ = [0; 0; 0];
+X = [1; 0; 0];
+Y = [0; 1; 0];
+Z = [0; 0; 1];
 
 % conversion of wrist joint center position in local hand xyz
 WJC_xyz = tp_unit_vecs * (WJC - r_WRI);
