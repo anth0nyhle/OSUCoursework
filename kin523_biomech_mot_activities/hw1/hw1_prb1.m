@@ -7,44 +7,49 @@
 close all;
 clear;
 
-% MH3: 3rd metacarpal head (knuckle of the middle finger)
-% MH5: 5th metacarpal head (knuckle of the pinky)
-% WRI: lunate bone at the wrist
+% r_MH3: 3rd metacarpal head (knuckle of the middle finger)
+% r_MH5: 5th metacarpal head (knuckle of the pinky)
+% r_WRI: lunate bone at the wrist
 
 % global XYZ positions of the three markers, in mm
 r_MH3 = [366.0; 10.9; 1139.5];
 r_MH5 = [350.4; -29.1; 1125.4];
 r_WRI = [292.7; 3.5; 1149.1];
 
+% wrist joint center offset from WRI marker
 offset = [-11; 0; -21];
 
 % actual wrist joint center position in global XYZ
 WJC = r_WRI + offset;
 
+% u vector from WRI to MH3 markers
 u = r_MH3 - r_WRI; % x-axis
-norm_u = norm(u, 2);
+norm_u = norm(u, 2); % magnitude of u
 
+% v vector from WRI to MH5 markers
 v = r_MH5 - r_WRI; % vector b/w WRI and MH5
-norm_v = norm(v, 2);
+norm_v = norm(v, 2); % magnitude of v
 
+% w vector perpendicular to the v and u vectors
 w = cross(u, v, 1); % y-axis
-norm_w = norm(w, 2);
+norm_w = norm(w, 2); % magnitude of w
 
 % unit vectors of hand xyz coordinate system
 i = u / norm_u; % unit vector in x
 j = w / norm_w; % unit vector in y
 k = cross(i, j, 1); % unit vector in z
 
+% cat vectors for data processing ahead
 hand_marks = [r_MH3, r_MH5, r_WRI];
 unit_vecs = [i, j, k];
 
 % transpose of unit vector matrix
 tp_unit_vecs = transpose(unit_vecs);
 
-% global origin
+% global XYZ origin
 XYZ = [0; 0; 0];
 
-% wrist joint center position in local hand xyz
+% conversion of wrist joint center position in local hand xyz
 WJC_xyz = tp_unit_vecs * (WJC - r_WRI);
 
 % unit vector for hand's anterior axis in global XYZ
