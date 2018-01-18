@@ -1,9 +1,14 @@
 %filename: sa.m
-clear all % clear all variables
-clf % and figures
+close all;
+clear all; % clear all variables
+clf; % and figures
 global T TS TMAX QMAX;
 global Rs Csa dt;
-in_sa %initialization
+% in_sa %initialization
+normal_in_sa
+% aging_in_sa
+
+PSA = [];
 
 for klok=1:klokmax
     t=klok*dt;
@@ -13,6 +18,7 @@ for klok=1:klokmax
     t_plot(klok)=t;
     QAo_plot(klok)=QAo;
     Psa_plot(klok)=Psa;
+    PSA = [PSA; Psa];
 end
 
 %Now plot results in one figure
@@ -20,3 +26,6 @@ end
 % and Psa(t) in lower frame
 subplot(2,1,1), plot(t_plot,QAo_plot), xlabel('time (min)'), ylabel('QAo (L/min)')
 subplot(2,1,2), plot(t_plot,Psa_plot), xlabel('time (min)'), ylabel('Psa (mm Hg)')
+max(PSA(1200:1500))
+min(PSA(1200:1500))
+mean(PSA(1200:1500))
