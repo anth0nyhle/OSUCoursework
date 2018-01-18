@@ -1,5 +1,5 @@
 % Created by: Anthony Le
-% Last updated: 01.15.2018
+% Last updated: 01.17.2018
 
 % KIN 523: Homework 1 - Vector Math and Describing Human Motion
 % Due: 01.18.2018 by 7PM
@@ -66,17 +66,15 @@ WJC_XYZ = transpose(WJC_XYZ);
 % table for problem 2c
 table_2c = [Time(1,:) , WJC_XYZ];
 
-% unit vector for hand's anterior axis in global XYZ
-e_XYZ = [0; 0; -1];
-
-e_ijk = [0.129213880302701; 0.910385524181768; -0.393067386713025];
+% components of e_XYZ in the i, j, k directions; from problem 1d
+x_ijk = [0.129213880302701; 0.910385524181768; -0.393067386713025];
 
 % create empty array
 E = [];
 
 % global XYZ components of e in the global XYZ coordinate system
 for rows = 1:size(UNIT_VECS_rs, 3)
-    e_IJK = UNIT_VECS_rs(:, :, rows) * e_ijk;
+    e_IJK = UNIT_VECS_rs(:, :, rows) * x_ijk;
     E = cat(2, E, e_IJK);
 end
 E = transpose(E);
