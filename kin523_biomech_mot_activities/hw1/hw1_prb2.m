@@ -72,7 +72,8 @@ x_ijk = [0.129213880302701; 0.910385524181768; -0.393067386713025];
 % create empty array
 E = [];
 
-% global XYZ components of e in the global XYZ coordinate system
+% global XYZ components of e in the global XYZ coordinate system at each
+% sample time
 for rows = 1:size(UNIT_VECS_rs, 3)
     e_IJK = UNIT_VECS_rs(:, :, rows) * x_ijk;
     E = cat(2, E, e_IJK);
