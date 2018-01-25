@@ -26,6 +26,6 @@ end
 % and Psa(t) in lower frame
 subplot(2,1,1), plot(t_plot,QAo_plot), xlabel('time (min)'), ylabel('QAo (L/min)')
 subplot(2,1,2), plot(t_plot,Psa_plot), xlabel('time (min)'), ylabel('Psa (mm Hg)')
-max(PSA(1200:1500))
-min(PSA(1200:1500))
-mean(PSA(1200:1500))
+max_psa = max(PSA(1200:1500))
+min_psa = min(PSA(1200:1500))
+avg_psa = mean(PSA(1200:1500))f
