@@ -1,5 +1,5 @@
 % Created by: Anthony Le
-% Last updated: 01.27.2018
+% Last updated: 01.29.2018
 
 % KIN 523: Homework 2 - Motion Capture
 % Due: 01.30.2018

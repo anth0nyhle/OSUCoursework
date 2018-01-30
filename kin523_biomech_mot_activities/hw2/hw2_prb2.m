@@ -1,5 +1,5 @@
 % Created by: Anthony Le
-% Last updated: 01.27.2018
+% Last updated: 01.29.2018
 
 % KIN 523: Homework 2 - Motion Capture
 % Due: 01.30.2018
@@ -47,7 +47,7 @@ L1_11 = L1(11, 1);
 L2_1 = -551.0;
 L2_2 = -160.5;
 L2_3 = -89.7;
-L2_4 = 0;
+L2_4 = 689.9;
 L2_5 = 0;
 L2_6 = 0;
 L2_7 = 0;
@@ -86,70 +86,66 @@ r_u2 = sqrt((u2 - u_0).^2 + (v2 - v_0).^2);
 delta_u2 = ((u2 - u_0) .* r_u2.^2) * L2_12;
 
 % problem 2c
-A = zeros(2, 3, 49); % alocate memory for 3D matrix, 2 rows, 3 cols, 49 times
+A = zeros(2, 2, 49); % alocate memory for 3D matrix, 2 rows, 2 cols, 49 times
 % imagine 2 by 3 matrices stacked in 3rd dim
-% result in a stack of 49 2 by 3 matrices
+% result in a stack of 49 2 by 2 matrices
 
 % for loop to fill values into A matrix
 % iterate in 3rd dim of A matrix (i.e. iterate thru matrices, see above)
-% iterate in 1st dim of col vectors, u1 and u2 (i.e. iterate row indices)
+% iterate in 1st dim of col vectors, u1, u2, delta_u2 (i.e. iterate row indices)
 for i = 1:49
     A(1, 1, i) = (u1(i, 1) * L1_9) - L1_1;
-    A(2, 1, i) = (u2(i, 1) * L2_9) - L2_1;
+    A(2, 1, i) = ((u2(i, 1) - delta_u2(i, 1)) * L2_9) - L2_1;
     A(1, 2, i) = (u1(i, 1) * L1_10) - L1_2;
-    A(2, 2, i) = (u2(i, 1) * L2_10) - L2_2;
-    A(1, 3, i) = (u1(i, 1) * L1_11) - L1_3;
-    A(2, 3, i) = (u2(i, 1) * L2_11) - L2_3;
+    A(2, 2, i) = ((u2(i, 1) - delta_u2(i, 1)) * L2_10) - L2_2;
+%     A(1, 3, i) = (u1(i, 1) * L1_11) - L1_3;
+%     A(2, 3, i) = ((u2(i, 1) - delta_u2(i, 1)) * L2_11) - L2_3;
 end
 
-B = zeros(2, 1, 49); % allocate memory for 3D matrix, 2 rows, 3 cols, 49 times
+B = zeros(2, 1, 49); % allocate memory for 3D matrix, 2 rows, 1 col, 49 times
 % imagine 2 by 1 col vectors stacked in 3rd dim
 % result in a stack of 49 2 by 1 col vectors
 
 % for loop to fill values into B matrix
 % iterate in 3rd dim of B matrix (i.e. iterate thru matrices, see above)
-% iterate in 1st dim of col vectors, u1 and u2 (i.e. iterate row indices)
+% iterate in 1st dim of col vectors, u1, u2, and delta_u (i.e. iterate row indices)
 for j = 1:49
-    B(1, 1, j) = (L1_4 - u1(j, 1));
-    B(2, 1, j) = (L2_4 - u2(j, 1));
+    B(1, 1, j) = (L1_4 - u1(j, 1)) - ((u1(j, 1) * L1_11) - L1_3) * Z;
+    B(2, 1, j) = (L2_4 - (u2(j, 1) - delta_u2(j, 1))) - (((u2(j, 1) - delta_u2(j, 1)) * L2_11) - L2_3) * Z;
 end
 
-XYZ = []; % empty matrix
+XY = []; % empty matrix
 
 % for loop to fill values into XYZ matrix
 % 1st colon operator in A and B signifies the entire index range of rows
 % (i.e. 1-2 rows for A and B)
 % 2nd colon operator in A and B signifies the entire index range of cols
-% (i.e. 1-3 and 1-1 cols for A and B, respectively)
+% (i.e. 1-2 and 1-1 cols for A and B, respectively)
 % iterate in 3rd dim of A and B matrices
 % cat function signifies concatenate value along specified dim
 for k = 1:49
-    xyz = A(:, :, k) \ B(:, :, k); % col vector of x, y , z values
-    XYZ = cat(2, XYZ, xyz); % concatenate col vectors in 2nd dim
+    xy = A(:, :, k) \ B(:, :, k); % col vector of x, y values
+    XY = cat(2, XY, xy); % concatenate col vectors in 2nd dim
 end
-% XYZ matrix results in 3 by 49 matrix, 49 col vectors of x, y, z values
+% XY matrix results in 2 by 49 matrix, 49 col vectors of x, y values
 
-XYZ = transpose(XYZ); % transpose XYZ matrix
-% XYZ matrix becomes a 49 by 3 matrix; X, Y, Z col vectors
+XY = transpose(XY); % transpose XY matrix for plotting along 1st dim below
+% XY matrix becomes a 49 by 2 matrix; X, Y col vectors
 
-% fill in Z position col vector into XYZ matrix
-% colon operator signifies the entire index range of rows (1-49)
-% 2nd # after comma refers to col index (i.e. 3rd col)
-% repmat function repeats copies of array
-% (i.e. Z position value is repeated 49 times)
-% 49 by 1 col vector of repeated Z value, 0.15m
-XYZ(:, 3) = repmat(Z, 49, 1);
+% problem 2d
+table_2d = [frame, time, delta_u2, XY, repmat(Z, 49, 1)];
 
 % problem 2e
 % plot (X, Y) position of markers
-plot(XYZ(:, 1), XYZ(:, 2), '-o');
+plot(XY(:, 1), XY(:, 2), '-o');
+grid on;
 hold on;
-plot(XYZ(1, 1), XYZ(1, 2), 'o', 'MarkerFaceColor', 'g', 'MarkerEdgeColor', 'g');
-plot(XYZ(49, 1), XYZ(49, 2), 'o', 'MarkerFaceColor', 'r', 'MarkerEdgeColor', 'r');
+plot(XY(1, 1), XY(1, 2), 'o', 'MarkerFaceColor', 'g', 'MarkerEdgeColor', 'g');
+plot(XY(49, 1), XY(49, 2), 'o', 'MarkerFaceColor', 'r', 'MarkerEdgeColor', 'r');
 plot(0, 0, 'xk');
-text(0, 0, '\leftarrow origin');
-text(XYZ(1, 1), XYZ(1, 2), '\leftarrow start');
-text(XYZ(49, 1), XYZ(49, 2), '\leftarrow end');
+text(0, 0, '\leftarrow origin (0, 0)');
+text(XY(1, 1), XY(1, 2), 'start \rightarrow');
+text(XY(49, 1), XY(49, 2), '\leftarrow end');
 title('Marker (X, Y) Position on Top of Robotic Vehicle over Time, 2 Camera Setup');
 xlabel('Marker X Position (m)');
 ylabel('Marker Y Position (m)');
