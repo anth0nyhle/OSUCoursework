@@ -1,5 +1,5 @@
 % Created by: Anthony Le
-% Last updated: 02.04.2018
+% Last updated: 02.06.2018
 
 % KIN 523: Homework 3 - Signal Processing
 % Due: 02.06.2018
@@ -49,9 +49,13 @@ N = 289;
 R_f_c_Toe = sqrt((1 / N) * sum((X_kT_Toe - Y2_kT_Toe).^2));
 
 figure(1)
-subplot(2, 1, 1);
+% subplot(2, 1, 1);
 plot(Time, X_kT_Toe);
 hold on;
 plot(Time, Y1_kT_Toe);
 plot(Time, Y2_kT_Toe);
+legend('Measured', 'Filtered foward', 'Filtered forward then back');
+xlabel('Time (s)');
+ylabel('Toe Marker Position (height in Y, m)');
+title('LTOE data low-pass filtered using a 4th-order, no-lag Butterworth filter w/ a cut-off frequency, 10Hz');
 hold off;

@@ -1,5 +1,5 @@
 % Created by: Anthony Le
-% Last updated: 02.04.2018
+% Last updated: 02.06.2018
 
 % KIN 523: Homework 3 - Signal Processing
 % Due: 02.06.2018
@@ -12,8 +12,36 @@ load('Residuals.mat');
 % Freq_Resid col vector in Hz
 % Resid col vector in mm
 
+% x = Freq_Resid(4:6);
+% y = Resid(4:6);
+% 
+% p = polyfit(x, y, 1);
+% fit = polyval(p, x);
+
+x = linspace(0, 36, 37);
+
+% linear regression
+[r, m, b] = regression(Freq_Resid(27:35), Resid(27:35), 'one');
+y = x .* m + b;
+y2 = repmat(0.229, 37, 2);
+
+% plot residual analysis and linear regression fit
 figure(1);
+subplot(1, 2, 1);
 plot(Freq_Resid, Resid);
+title('Residual Analysis');
+xlabel('Frequency (Hz)');
+ylabel('Residual (mm)');
+
+subplot(1, 2, 2);
+plot(Freq_Resid, Resid, '-o');
+hold on;
+title('Residual Analysis');
+xlabel('Frequency (Hz)');
+ylabel('Residual (mm)');
+plot(x, y);
+plot(x, y2);
+axis([0 35 0 2])
 
 % part c
 load('FilterData.mat');
@@ -21,7 +49,7 @@ load('FilterData.mat');
 % LANK col vector in m
 % LTOE col vector in m
 
-f_c = 10; % in Hz; cut-off freq
+f_c = 18; % in Hz; cut-off freq
 f_s = 120; % in frames/s; sampling freq
 T = 1 / f_s; % in s per frame; sampling period
 
@@ -60,6 +88,38 @@ R_f_c_Ank = sqrt((1 / N) * sum((X_kT_Ank - Y2_kT_Ank).^2));
 figure(2);
 plot(Time, X_kT_Ank);
 hold on;
-plot(Time, Y1_kT_Ank);
+% plot(Time, Y1_kT_Ank);
 plot(Time, Y2_kT_Ank);
+axis([0 2.4 0 0.5])
+legend('Measured', 'Filtered')
+% legend('Measured', 'Filtered foward', 'Filtered forward then back');
+xlabel('Time (s)');
+ylabel('Ankle Marker Position (height in Y, m)');
+title('LANK data low-pass filtered using a 4th-order, no-lag Butterworth filter w/ a cut-off frequency, 18Hz');
+hold off;
+
+figure(3);
+plot(Time, X_kT_Ank);
+hold on;
+% plot(Time, Y1_kT_Ank);
+plot(Time, Y2_kT_Ank);
+axis([0.3 0.8 0.0825 0.087])
+legend('Measured', 'Filtered')
+% legend('Measured', 'Filtered foward', 'Filtered forward then back');
+xlabel('Time (s)');
+ylabel('Ankle Marker Position (height in Y, m)');
+title('LANK data low-pass filtered using a 4th-order, no-lag Butterworth filter w/ a cut-off frequency, 18Hz');
+hold off;
+
+figure(4);
+plot(Time, X_kT_Ank);
+hold on;
+% plot(Time, Y1_kT_Ank);
+plot(Time, Y2_kT_Ank);
+axis([1.5 1.75 0.07 0.19])
+legend('Measured', 'Filtered')
+% legend('Measured', 'Filtered foward', 'Filtered forward then back');
+xlabel('Time (s)');
+ylabel('Ankle Marker Position (height in Y, m)');
+title('LANK data low-pass filtered using a 4th-order, no-lag Butterworth filter w/ a cut-off frequency, 18Hz');
 hold off;
