@@ -7,14 +7,14 @@ global Rs Csa dt;
 % in_sa %initialization
 normal_in_sa
 % aging_in_sa
-% 
+
 % PSA = [];
 % 
 % for klok=1:klokmax
 %     t=klok*dt;
 %     QAo=QAo_now(t);
 %     Psa=Psa_new(Psa,QAo); %new Psa overwrites old
-%     Store values in arrays for future plotting:
+%     %Store values in arrays for future plotting:
 %     t_plot(klok)=t;
 %     QAo_plot(klok)=QAo;
 %     Psa_plot(klok)=Psa;
