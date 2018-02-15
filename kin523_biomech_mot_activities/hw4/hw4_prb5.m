@@ -1,5 +1,5 @@
 % Created by: Anthony Le
-% Last updated: 02.12.2018
+% Last updated: 02.14.2018
 
 % KIN 523: Homework 4 - Planar Kinematics
 % Due: 02.15.18
@@ -14,6 +14,7 @@ load('jump.mat');
 f_s = 120;
 delta_t = 1 / f_s;
 
+%%
 time = [];
 
 for i = 1:length(frame_j)
@@ -21,6 +22,7 @@ for i = 1:length(frame_j)
     time = cat(1, time, t);
 end
 
+%%
 avgx_heel = mean(HEEX_ST);
 avgy_heel = mean(HEEY_ST);
 
@@ -35,18 +37,18 @@ for j = 1:length(frame_j)
 end
 hold off;
 
-offset_foot = atan2d((avgy_toe - avgy_heel), (avgx_toe - avgx_heel));
+offset_foot = -(atan2d((avgy_toe - avgy_heel), (avgx_toe - avgx_heel)));
 
 MJ_ANG_foot = [];
 
 for k = 1:length(frame_j)
-    mj_ang = atan2d((TOEY_J(k, 1) - HEEY_J(k, 1)), (TOEX_J(k, 1) - HEEX_J(k, 1)));
+    mj_ang = -(atan2d((TOEY_J(k, 1) - HEEY_J(k, 1)), (TOEX_J(k, 1) - HEEX_J(k, 1))));
     MJ_ANG_foot = cat(1, MJ_ANG_foot, mj_ang);
 end
 
 AJ_ANG_foot = MJ_ANG_foot - offset_foot;
 
-
+%%
 avgx_ank = mean(ANKX_ST);
 avgy_ank = mean(ANKY_ST);
 
@@ -74,6 +76,7 @@ end
 MJ_ANG_leg = 90 - MJ_ANG_leg;
 AJ_ANG_leg = MJ_ANG_leg - offset_leg;
 
+%%
 table_234 = [frame_j, time, AJ_ANG_foot, AJ_ANG_leg];
 
 figure(3);
@@ -92,4 +95,5 @@ legend('Foot', 'Leg');
 xlabel('Time (s)');
 ylabel('Segment Angle (deg)');
 title('Segment Angle of Foot and Leg over Time');
+xlim([0 2.3904]);
 hold off;

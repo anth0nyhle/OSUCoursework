@@ -37,12 +37,12 @@ hold off;
 % x = avgx_toe - avgx_heel;
 % y = avgy_toe - avgy_heel;
 % offset_ang = atan2d(y, x);
-offset_ang = atan2d((avgy_toe - avgy_heel), (avgx_toe - avgx_heel));
+offset_ang = -(atan2d((avgy_toe - avgy_heel), (avgx_toe - avgx_heel)));
 
 MJ_ANG = [];
 
 for k = 1:length(frame_j)
-    mj_ang = atan2d((TOEY_J(k, 1) - HEEY_J(k, 1)), (TOEX_J(k, 1) - HEEX_J(k, 1)));
+    mj_ang = -(atan2d((TOEY_J(k, 1) - HEEY_J(k, 1)), (TOEX_J(k, 1) - HEEX_J(k, 1))));
     MJ_ANG = cat(1, MJ_ANG, mj_ang);
 end
 
