@@ -47,7 +47,7 @@ end
 MJ_ANG = 90 - MJ_ANG;
 AJ_ANG = MJ_ANG - offset_ang;
 
-FTAng = horzcat(frame_j, time, AJ_ANG);
+legAng_time = horzcat(frame_j, time, AJ_ANG);
 
 figure(2);
 plot(time, AJ_ANG);
