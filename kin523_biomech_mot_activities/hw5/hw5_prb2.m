@@ -1,5 +1,5 @@
 % Created by: Anthony Le
-% Last updated: 02.21.2018
+% Last updated: 02.22.2018
 
 % KIN 523: Homework 5 - 3D Kinematics & Anthropometry
 % Due: 02.22.18
@@ -36,12 +36,13 @@ alpha = atand(RotM(3, 1) / RotM(3, 3));
 gamma = atand(RotM(1, 2) / RotM(2, 2));
 
 % part c
-% knee flexion axis unit vector at instant of ground contact
-knee_flex = RotM \ j_T; 
+% knee flexion axis unit vector at instant of ground contact in global XYZ
+knee_flex = j_T; 
 
 % knee abduction axis (i.i. line of nodes) unit vector at instant of ground
-% contact
-knee_abd = RotM \ (cross(j_T, k_L) / norm(cross(j_T, k_L)));
+% contact in global XYZ
+knee_abd = (cross(j_T, k_L) / norm(cross(j_T, k_L)));
 
 % knee external rotation axis unit vector  at instant of ground contact
-knee_exrot = RotM \ k_L;
+% in global XYZ
+knee_exrot = k_L;
