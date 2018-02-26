@@ -1,5 +1,5 @@
 % Created by: Anthony Leplot(Lii, Fii);
-% Last updated: 02.25.2018
+% Last updated: 02.26.2018
 
 % BIOE 599-3: Homework 2
 % Due: 03.02.2018
@@ -28,4 +28,10 @@ plot(dYb(:, 1), dYb(:, 2));
 [tc, dYc] = ode45(@Fc_ode, [0 200], [220; 0]);
 
 figure(3);
-plot(dYc(:, 1), dYc(:, 2));
+plot(tc, dYc(:, 2));
+
+% part d
+[td, dYd] = ode45(@ld_ode, [0 200], [0; 220]);
+
+figure(4);
+plot(td, dYd(:, 2));

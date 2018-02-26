@@ -12,5 +12,5 @@ else
     dl = 0;
 end
 
-dFc = (k_1 * dl) + ((k_1 * k_2 * (l - l_0)) / b) - (((k_1 + k_2) * y(1)) / b);
+dFc = (k_1 * dl) + ((k_1 * k_2 * (l - l_0)) / b) - (((k_1 + k_2) * y(2)) / b);
 dYc = [dl; dFc];
