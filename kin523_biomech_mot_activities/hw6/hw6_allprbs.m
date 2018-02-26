@@ -1,5 +1,5 @@
 % Created by: Anthony Le
-% Last updated: 02.24.2018
+% Last updated: 02.25.2018
 
 % KIN 523: Homework 6 - Force Measurement
 % Due: 03.01.18
