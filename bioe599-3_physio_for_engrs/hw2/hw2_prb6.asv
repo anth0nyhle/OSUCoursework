@@ -72,5 +72,5 @@ for k = 1:length(F)
     M = cat(1, M, m);
 end
 
-figure(2);
-plot(L, M);
+figure
+plot(

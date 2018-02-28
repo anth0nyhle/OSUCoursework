@@ -18,8 +18,9 @@ cal_mat = [612.8, -2.9, 0.1, 1.4, 0.1, 0.7;
             0.4, -29.0, -0.7, 351.3, 1.5, 0.6;
             25.6, -0.2, -0.7, -0.7, 246.9, 0.3;
             0.8, 0.6, 0.6, 0.5, 0.6, 143.8];
-        
-h = 0.044; % in m
+
+h = 0; % in m        
+h_true = 0.044; % in m
 
 G_i = 2; % force plate amp gains
 
@@ -101,9 +102,10 @@ table_5 = horzcat(sample, T_z);
 xyz_CoP_tp = transpose(xyz_CoP);
 
 XZY_CoP = [];
+theta = 270; % in deg
 
-RotM = [cos(90), sin(90), 0;
-        sin(90), -cos(90), 0;
+RotM = [cos(theta), sin(theta), 0;
+        sin(theta), -cos(theta), 0;
         0, 0, -1];
 
 for l = 1:length(sample)
@@ -112,6 +114,7 @@ for l = 1:length(sample)
 end
 
 XZY_CoP = transpose(XZY_CoP);
+XZY_CoP(:, 2) = -XZY_CoP(:, 2); % Y_CoP -> -Z_CoP
 
 X_CoP = XZY_CoP(:, 1);
 Z_CoP = XZY_CoP(:, 2);
@@ -128,19 +131,20 @@ for m = 1:length(sample)
 end
 
 F_XZY = transpose(F_XZY);
+F_XZY(:, 2) = -F_XZY(:, 2); % F_Y -> -F_Z
 
 F_X = F_XZY(:, 1);
-F_Y = F_XZY(:, 3);
 F_Z = F_XZY(:, 2);
+F_Y = F_XZY(:, 3);
 
 % part c
-T_Z = [];
+T_Y = -T_z;
 
-M_Z = (-X_CoP .* F_Y) - (h * F_X);
-M_X = (-Z_CoP .* F_Y) - (h * (-F_Z));
-M_Y = -FM_output(:, 6);
-
-T_Y = M_Y - (X_CoP .* (-F_Z)) + ((-Z_CoP) .* F_X);
+% M_Z = (-X_CoP .* F_Y) - (h * F_X);
+% M_X = (-Z_CoP .* F_Y) - (h * (-F_Z));
+% M_Y = -FM_output(:, 6);
+% 
+% T_Y = M_Y - (X_CoP .* (-F_Z)) + ((-Z_CoP) .* F_X);
 
 table_6 = horzcat(sample, X_CoP, Z_CoP, F_X, F_Y, F_Z, T_Y);
 
@@ -219,12 +223,13 @@ hold off;
 %% Problem 9
 TO_ids = find(F_Ygrf < 20);
 TD_ids = find(F_Ygrf > 20);
+down_samp = f_s / f_s_mocap;
 
-takeoff = round(time(1145) / (1/f_s_mocap)); % 127
-touchdown = round(time(1635) / (1/f_s_mocap)); % 182
+takeoff = time(min(TO_ids)); % idx = 1145
+touchdown = time(max(TO_ids) + 1); % idx = 1635
 
-takeoff_mocap = 127 * (1 / f_s_mocap);
-touchdown_mocap = 182 * (1 / f_s_mocap);
+takeoff_mocap = (min(TO_ids) / down_samp) * (1 / f_s_mocap);
+touchdown_mocap = ((max(TO_ids) + 1) / down_samp) * (1 / f_s_mocap);
 
 %% Problem 10
 delta_t = 1/ f_s;
@@ -277,11 +282,11 @@ peak_shear2 = cal_mat2 * (ps ./ G_i);
 
 peak_shear1 = transpose(FM_output(1101, :));
 
-x_CoP2 = (-h * peak_shear2(1) - peak_shear2(5)) / (peak_shear2(3));
-y_CoP2 = (-h * peak_shear2(2) - peak_shear2(4)) / (peak_shear2(3));
+x_CoP2 = (-h_true * peak_shear2(1) - peak_shear2(5)) / (peak_shear2(3));
+y_CoP2 = (-h_true * peak_shear2(2) - peak_shear2(4)) / (peak_shear2(3));
 
-x_CoP1 = (-h * peak_shear1(1) - peak_shear1(5)) / (peak_shear1(3));
-y_CoP1 = (-h * peak_shear1(2) - peak_shear1(4)) / (peak_shear1(3));
+x_CoP1 = (-h_true * peak_shear1(1) - peak_shear1(5)) / (peak_shear1(3));
+y_CoP1 = (-h_true * peak_shear1(2) - peak_shear1(4)) / (peak_shear1(3));
 
 % figure(6);
 % plot(x_CoP1, y_CoP1, 'x');
