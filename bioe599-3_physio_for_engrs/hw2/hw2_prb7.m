@@ -1,4 +1,4 @@
-% Created by: Anthony Leplot(Lii, Fii);
+% Created by: Anthony Le
 % Last updated: 02.26.2018
 
 % BIOE 599-3: Homework 2

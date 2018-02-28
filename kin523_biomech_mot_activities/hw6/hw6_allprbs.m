@@ -1,5 +1,5 @@
 % Created by: Anthony Le
-% Last updated: 02.25.2018
+% Last updated: 02.27.2018
 
 % KIN 523: Homework 6 - Force Measurement
 % Due: 03.01.18
@@ -25,6 +25,7 @@ G_i = 2; % force plate amp gains
 
 f_s = 1080; % in Hz
 f_c = 120; % in Hz; 4th-order Butterworth no-lag filter
+f_s_mocap = 120; % in Hz
 
 %% Problem 1
 % bipolar range for 16-bit A/D -32768 to 32767
@@ -144,3 +145,146 @@ T_Y = M_Y - (X_CoP .* (-F_Z)) + ((-Z_CoP) .* F_X);
 table_6 = horzcat(sample, X_CoP, Z_CoP, F_X, F_Y, F_Z, T_Y);
 
 %% Problem 7
+% part a
+F_Xgrf = -F_X;
+F_Ygrf = -F_Y;
+F_Zgrf = -F_Z;
+
+% part b
+T_Ygrf = -T_Y;
+
+table_7 = horzcat(sample, X_CoP, Z_CoP, F_Xgrf, F_Ygrf, F_Zgrf, T_Ygrf);
+
+%% Problem 8
+time = [];
+
+for n = 1:length(sample)
+    t = sample(n) * (1/f_s); 
+    time = cat(1, time, t);
+end
+
+figure(1);
+plot(time, F_Ygrf);
+hold on;
+plot(time(1145), F_Ygrf(1145), 'o');
+plot(time(1635), F_Ygrf(1635), 'o');
+xlim([0 2.4]);
+legend('F_{Ygrf}');
+xlabel('Time (s)');
+ylabel('Force (N)');
+title('Force acting on the foot in Y direction at CoP over time');
+
+figure(2);
+plot(time, F_Xgrf);
+xlim([0 2.4]);
+hold on;
+plot(time, F_Zgrf, '--');
+plot(time(1145), F_Xgrf(1145), 'o');
+plot(time(1635), F_Xgrf(1635), 'o');
+plot(time(1145), F_Zgrf(1145), 'o');
+plot(time(1635), F_Zgrf(1635), 'o');
+xlim([0 2.4]);
+legend('F_{Xgrf}', 'F_{Zgrf}');
+xlabel('Time (s)');
+ylabel('Force (N)');
+title('Force acting on the foot in X and Z directions at CoP over time');
+hold off;
+
+figure(3);
+plot(time, T_Ygrf);
+hold on;
+plot(time(1145), T_Ygrf(1145), 'o');
+plot(time(1635), T_Ygrf(1635), 'o');
+xlim([0 2.4]);
+legend('T_{Ygrf}');
+xlabel('Time (s)');
+ylabel('Moment (Nm)');
+title('"Free moment" acting about Y axis at CoP over time');
+
+figure(4);
+plot(time, X_CoP);
+hold on;
+plot(time, Z_CoP, '--');
+plot(time(1145), X_CoP(1145), 'o');
+plot(time(1635), X_CoP(1635), 'o');
+plot(time(1145), Z_CoP(1145), 'o');
+plot(time(1635), Z_CoP(1635), 'o');
+xlim([0 2.4]);
+legend('X_{CoP}', 'Z_{CoP}');
+xlabel('Time (s)');
+ylabel('Position (m)');
+title('X and Z positions of CoP over time');
+hold off;
+
+%% Problem 9
+TO_ids = find(F_Ygrf < 20);
+TD_ids = find(F_Ygrf > 20);
+
+takeoff = round(time(1145) / (1/f_s_mocap)); % 127
+touchdown = round(time(1635) / (1/f_s_mocap)); % 182
+
+takeoff_mocap = 127 * (1 / f_s_mocap);
+touchdown_mocap = 182 * (1 / f_s_mocap);
+
+%% Problem 10
+delta_t = 1/ f_s;
+
+% part a
+J_Y = [];
+
+for o = 927:1145
+    j_Y = delta_t * ((F_Ygrf(o) + F_Ygrf(o+1)) / 2);
+    J_Y = cat(1, J_Y, j_Y);
+end
+J_Ysum = sum(J_Y);
+
+% part b
+peakF_Ygrf = max(F_Ygrf(1635:2593));
+
+% part c
+body_m = 56.3; % in kg
+body_w = body_m * 2.20462; % in lb; conversion
+
+prop = body_w / peakF_Ygrf; % in lb/N
+
+%% Problem 11
+dF_Ygrf = [];
+
+for p = 3:2591
+    df = (F_Ygrf(p+2) - F_Ygrf(p-2)) / (4 * delta_t);
+    dF_Ygrf = cat(1, dF_Ygrf, df); % in N/s
+end
+dF_Ygrf = [nan; nan; dF_Ygrf; nan; nan] * prop; % in lb/s
+
+figure(5);
+plot(time, dF_Ygrf);
+xlim([0 2.4]);
+xlabel('Time (s)');
+ylabel('Rate of Change of F_{Ygrf}(lb/s)');
+title('Rate of change of vertical component of GRF acting on foot over time');
+
+%% Problem 12
+ps = transpose(V_act(1101, :));
+
+cal_mat2 = [612.8, 0, 0, 0, 0, 0;
+            0, 616.3, 0, 0, 0, 0;
+            0, 0, 945.1, 0, 0, 0;
+            0, 0, 0, 351.3, 0, 0;
+            0, 0, 0, 0, 246.9, 0;
+            0, 0, 0, 0, 0, 143.8];
+        
+peak_shear2 = cal_mat2 * (ps ./ G_i);
+
+peak_shear1 = transpose(FM_output(1101, :));
+
+x_CoP2 = (-h * peak_shear2(1) - peak_shear2(5)) / (peak_shear2(3));
+y_CoP2 = (-h * peak_shear2(2) - peak_shear2(4)) / (peak_shear2(3));
+
+x_CoP1 = (-h * peak_shear1(1) - peak_shear1(5)) / (peak_shear1(3));
+y_CoP1 = (-h * peak_shear1(2) - peak_shear1(4)) / (peak_shear1(3));
+
+% figure(6);
+% plot(x_CoP1, y_CoP1, 'x');
+% hold on;
+% plot(x_CoP2, y_CoP2, 'o');
+% hold off;
