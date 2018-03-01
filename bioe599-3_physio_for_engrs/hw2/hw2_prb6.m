@@ -12,23 +12,20 @@ A = 3; % in mm^2
 e_toe = 0.03; % unitless
 Tm = 270; % in MPa
 s_lin = 36; % in MPa
-e_lin = 0.15; % unitless, =e_toe @ s_lin
+e_lin = 0.15; % unitless, = e_toe @ s_lin
 r = 5.5; % in cm, moment arm
 r = r * 100; % in m
 
 % part a
 k_2 = 64.01;
 
-syms k_3 k_4;
-eqn = [s_lin == k_3 * e_lin + k_4];
-sol = solve(eqn, [k_3 k_4]);
-
-k_3 = double(sol.k_3); % 240
-k_4 = double(sol.k_4); % 0
-
-s_toe = k_3 * e_toe + k_4; % 7.2N
+s_toe = Tm * e_toe; % 8.1
 
 k_1 = s_toe / (exp(k_2 * e_toe) - 1);
+
+k_3 = (s_lin - s_toe) / (e_lin - e_toe);
+
+k_4 = s_toe - (k_3 * e_toe);
 
 % part b
 % stress-strain curve
@@ -36,41 +33,44 @@ L = [];
 theta = deg2rad(linspace(0, 10, 1000)); % in rad
 for g = 1:length(theta)
     l = 5 + 5.5 * theta(g); % in cm
-    L = cat(1, L, l);
+    L = cat(1, L, l); 
 end
 
 E = [];
 for h = 1:length(L)
-    e = (L(h)- l_0) / l_0;
+    e = (L(h)- l_0) / l_0; % unitless
     E = cat(1, E, e);
 end
 
-% E = linspace(0, 0.15, 1000); % unitless
-S = []; % in MPa or N/mm^2
+S = [];
 for i = 1:length(E)
     if E(i) <= e_toe
-        s = k_1 * (exp(k_2 * E(i)) - 1);
+        s = k_1 * (exp(k_2 * E(i)) - 1); % in N/cm^2
         S = cat(1, S, s);
     elseif E(i) > e_toe
-        s = k_3 * E(i) + k_4;
+        s = k_3 * E(i) + k_4; % in N/cm^2
         S = cat(1, S, s);
     end
 end
 
+S = S / 100; % in N/mm^2
+
 figure(1);
 plot(E, S);
+xlabel('Strain');
+ylabel('Stress (MPa)');
 
 F = [];
 for j = 1:length(S)
-    f = A * S(j);
+    f = A * S(j); 
     F = cat(1, F, f); % in N
 end
 
 M = [];
 for k = 1:length(F)
-    m = F(k) * r;
+    m = (F(k) * r) / 100; % in Nm
     M = cat(1, M, m);
 end
 
 figure(2);
-plot(L, M);
+plot(rad2deg(theta), M);
