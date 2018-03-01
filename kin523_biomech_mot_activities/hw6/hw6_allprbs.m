@@ -248,9 +248,9 @@ peakF_Ygrf = max(F_Ygrf(1635:2593));
 
 % part c
 body_m = 56.3; % in kg
-body_w = body_m * 2.20462; % in lb; conversion
+body_w = body_m * 9.80655; % in N; conversion by mass times accel of gravity
 
-prop = body_w / peakF_Ygrf; % in lb/N
+prop = body_w / peakF_Ygrf;
 
 %% Problem 11
 dF_Ygrf = [];
@@ -259,13 +259,13 @@ for p = 3:2591
     df = (F_Ygrf(p+2) - F_Ygrf(p-2)) / (4 * delta_t);
     dF_Ygrf = cat(1, dF_Ygrf, df); % in N/s
 end
-dF_Ygrf = [nan; nan; dF_Ygrf; nan; nan] * prop; % in lb/s
+dF_Ygrf = [nan; nan; dF_Ygrf; nan; nan] * prop; % in N/s
 
 figure(5);
 plot(time, dF_Ygrf);
 xlim([0 2.4]);
 xlabel('Time (s)');
-ylabel('Rate of Change of F_{Ygrf}(lb/s)');
+ylabel('Rate of Change of F_{Ygrf}(N/s)');
 title('Rate of change of vertical component of GRF acting on foot over time');
 
 %% Problem 12
