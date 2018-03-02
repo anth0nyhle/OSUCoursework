@@ -17,15 +17,16 @@ r = 5.5; % in cm, moment arm
 r = r * 100; % in m
 
 % part a
-k_2 = 64.01;
+k_2 = 64.01; 
 
-s_toe = Tm * e_toe; % 8.1
+s_toe = Tm * e_toe; % solve for stress at the toe point
 
-k_1 = s_toe / (exp(k_2 * e_toe) - 1);
+k_1 = s_toe / (exp(k_2 * e_toe) - 1); % solve for k_1
 
-k_3 = (s_lin - s_toe) / (e_lin - e_toe);
+k_3 = (s_lin - s_toe) / (e_lin - e_toe); % solve for k_3 as the slope
+% of the linear region
 
-k_4 = s_toe - (k_3 * e_toe);
+k_4 = s_toe - (k_3 * e_toe); % solve for k_4
 
 % part b
 % stress-strain curve
@@ -55,6 +56,12 @@ end
 
 S = S / 100; % in N/mm^2
 
+for h = 1:length(S)
+    if S(h) < 0
+        S(h) = 0;
+    end
+end
+
 figure(1);
 plot(E, S);
 xlabel('Strain');
@@ -74,3 +81,9 @@ end
 
 figure(2);
 plot(rad2deg(theta), M);
+xlabel('Knee Abduction Angle (deg)');
+ylabel('Moment (Nm)');
+
+% part c
+idx = 901; % when e reaches ~0.15 in the vector of calcuated E
+deg_lin = rad2deg(theta(idx));

@@ -17,21 +17,30 @@ plot(dYai(:, 1), dYai(:, 2));
 hold on;
 plot(dYaii(:, 1), dYaii(:, 2));
 plot(dYaiii(:, 1), dYaiii(:, 2));
+xlabel('Tendon Length (mm)');
+ylabel('Tendon Force (N)');
+legend('1st', '2nd', '3rd');
 
 % part b
 [tb, dYb] = ode45(@Fb_ode, [0 60], [220; 0]);
 
 figure(2);
 plot(dYb(:, 1), dYb(:, 2));
+xlabel('Tendon Length (mm)');
+ylabel('Tendon Force (N)');
 
 % part c
 [tc, dYc] = ode45(@Fc_ode, [0 200], [220; 0]);
 
 figure(3);
 plot(tc, dYc(:, 2));
+xlabel('Time (s)');
+ylabel('Tendon Force (N)');
 
 % part d
 [td, dYd] = ode45(@ld_ode, [0 200], [0; 220]);
 
 figure(4);
 plot(td, dYd(:, 2));
+xlabel('Time (s)');
+ylabel('Tendon Length (mm)');
