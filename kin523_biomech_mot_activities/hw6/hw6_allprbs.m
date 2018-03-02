@@ -1,5 +1,5 @@
 % Created by: Anthony Le
-% Last updated: 02.27.2018
+% Last updated: 03.01.2018
 
 % KIN 523: Homework 6 - Force Measurement
 % Due: 03.01.18
@@ -27,6 +27,7 @@ G_i = 2; % force plate amp gains
 f_s = 1080; % in Hz
 f_c = 120; % in Hz; 4th-order Butterworth no-lag filter
 f_s_mocap = 120; % in Hz
+down_samp = f_s / f_s_mocap;
 
 %% Problem 1
 % bipolar range for 16-bit A/D -32768 to 32767
@@ -76,7 +77,7 @@ for j = 1:length(sample)
         y_CoP = cat(1, y_CoP, y);
     else
         x = ((-h * FM_output(j, 1)) - FM_output(j, 5)) / FM_output(j, 3);
-        y = ((-h * FM_output(j, 2)) - FM_output(j, 4)) / FM_output(j, 3);
+        y = ((-h * FM_output(j, 2)) + FM_output(j, 4)) / FM_output(j, 3);
         x_CoP = cat(1, x_CoP, x);
         y_CoP = cat(1, y_CoP, y);
     end
@@ -104,8 +105,8 @@ xyz_CoP_tp = transpose(xyz_CoP);
 XZY_CoP = [];
 theta = 270; % in deg
 
-RotM = [cos(theta), sin(theta), 0;
-        sin(theta), -cos(theta), 0;
+RotM = [cosd(theta), sind(theta), 0;
+        sind(theta), -cosd(theta), 0;
         0, 0, -1];
 
 for l = 1:length(sample)
@@ -140,12 +141,6 @@ F_Y = F_XZY(:, 3);
 % part c
 T_Y = -T_z;
 
-% M_Z = (-X_CoP .* F_Y) - (h * F_X);
-% M_X = (-Z_CoP .* F_Y) - (h * (-F_Z));
-% M_Y = -FM_output(:, 6);
-% 
-% T_Y = M_Y - (X_CoP .* (-F_Z)) + ((-Z_CoP) .* F_X);
-
 table_6 = horzcat(sample, X_CoP, Z_CoP, F_X, F_Y, F_Z, T_Y);
 
 %% Problem 7
@@ -163,7 +158,7 @@ table_7 = horzcat(sample, X_CoP, Z_CoP, F_Xgrf, F_Ygrf, F_Zgrf, T_Ygrf);
 time = [];
 
 for n = 1:length(sample)
-    t = sample(n) * (1/f_s); 
+    t = (sample(n) / down_samp) * (1 / f_s_mocap);
     time = cat(1, time, t);
 end
 
@@ -223,21 +218,20 @@ hold off;
 %% Problem 9
 TO_ids = find(F_Ygrf < 20);
 TD_ids = find(F_Ygrf > 20);
-down_samp = f_s / f_s_mocap;
 
-takeoff = time(min(TO_ids)); % idx = 1145
-touchdown = time(max(TO_ids) + 1); % idx = 1635
+takeoff = time(min(TO_ids)); % idx = 1145, sample = 1146
+touchdown = time(max(TO_ids) + 1); % idx = 1635, sample = 1636
 
 takeoff_mocap = (min(TO_ids) / down_samp) * (1 / f_s_mocap);
 touchdown_mocap = ((max(TO_ids) + 1) / down_samp) * (1 / f_s_mocap);
 
 %% Problem 10
-delta_t = 1/ f_s;
+delta_t = 1 / f_s;
 
 % part a
 J_Y = [];
 
-for o = 927:1145
+for o = 928:1145-1
     j_Y = delta_t * ((F_Ygrf(o) + F_Ygrf(o+1)) / 2);
     J_Y = cat(1, J_Y, j_Y);
 end
@@ -250,7 +244,7 @@ peakF_Ygrf = max(F_Ygrf(1635:2593));
 body_m = 56.3; % in kg
 body_w = body_m * 9.80655; % in N; conversion by mass times accel of gravity
 
-prop = body_w / peakF_Ygrf;
+prop = peakF_Ygrf / body_w;
 
 %% Problem 11
 dF_Ygrf = [];
@@ -269,7 +263,8 @@ ylabel('Rate of Change of F_{Ygrf}(N/s)');
 title('Rate of change of vertical component of GRF acting on foot over time');
 
 %% Problem 12
-ps = transpose(V_act(1101, :));
+% part a
+ps = transpose(V_act(1102, :));
 
 cal_mat2 = [612.8, 0, 0, 0, 0, 0;
             0, 616.3, 0, 0, 0, 0;
@@ -280,16 +275,25 @@ cal_mat2 = [612.8, 0, 0, 0, 0, 0;
         
 peak_shear2 = cal_mat2 * (ps ./ G_i);
 
-peak_shear1 = transpose(FM_output(1101, :));
+peak_shear1 = transpose(FM_output(1102, :));
 
+% part b
 x_CoP2 = (-h_true * peak_shear2(1) - peak_shear2(5)) / (peak_shear2(3));
-y_CoP2 = (-h_true * peak_shear2(2) - peak_shear2(4)) / (peak_shear2(3));
+y_CoP2 = (-h_true * peak_shear2(2) + peak_shear2(4)) / (peak_shear2(3));
 
-x_CoP1 = (-h_true * peak_shear1(1) - peak_shear1(5)) / (peak_shear1(3));
-y_CoP1 = (-h_true * peak_shear1(2) - peak_shear1(4)) / (peak_shear1(3));
+x_CoP1 = (-h * peak_shear1(1) - peak_shear1(5)) / (peak_shear1(3));
+y_CoP1 = (-h * peak_shear1(2) + peak_shear1(4)) / (peak_shear1(3));
 
-% figure(6);
-% plot(x_CoP1, y_CoP1, 'x');
-% hold on;
-% plot(x_CoP2, y_CoP2, 'o');
-% hold off;
+perc_errx = abs(((x_CoP2 - x_CoP1) / x_CoP1)) * 100;
+perc_eery = abs(((y_CoP2 - y_CoP1) / y_CoP1)) * 100;
+
+figure(6);
+plot(x_CoP1, y_CoP1, 'x');
+hold on;
+plot(x_CoP2, y_CoP2, 'o');
+hold off;
+
+figure(7);
+plot(X_CoP, Z_CoP);
+xlabel('X position (m)');
+ylabel('Z position (m)');
