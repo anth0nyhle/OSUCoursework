@@ -11,10 +11,10 @@ global tprev tcurr tnext
 
 SimulationTime=2.0; % s
 Nunits=10; % number of motor units
-MUOnTime=[0.1 -1 -1 -1 -1 -1 -1 -1 -1 -1]; % s
-MUFiringRateOn=[5 0 0 0 0 0 0 0 0 0]; % Hz
-MUdFiringRatedt=[0 0 0 0 0 0 0 0 0 0]; % Hz/s
-MUFiringRateMax=[100 100 100 100 100 100 100 100 100 100]; % Hz
+MUOnTime=[0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1]; % s
+MUFiringRateOn=[100 100 100 100 100 100 100 100 100 100]; % Hz
+MUdFiringRatedt=[70 72 0 0 0 0 0 0 0 0]; % Hz/s
+MUFiringRateMax=[80 84 100 100 100 100 100 100 100 100]; % Hz
 MUForce=[1.0 1.4 2.6 1.1 4.1 1.2 1.7 5.0 2.1 3.3]; % N
 MUType=[1 1 2 1 2 1 1 2 1 2]; % Type 1 or Type 2 muscle fibers
 MUAsynchrony=1;
