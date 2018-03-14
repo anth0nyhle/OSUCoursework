@@ -49,7 +49,7 @@ k2se=43.7; % series elastic exponential gain
 % enforce limits on neural activation level
 N_ExciteLevel=min(max(N_ExciteLevel,0.01),1);
 % compute stop time for muscle length change
-if MT_Velocity~=0;
+if MT_Velocity~=0
     MT_StopTime=MT_StartTime+MT_Distance/MT_Velocity;
 else
     MT_StopTime=SimulationTime;

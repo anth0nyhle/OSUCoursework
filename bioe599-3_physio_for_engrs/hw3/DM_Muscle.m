@@ -6,7 +6,8 @@
 % Constitutive relations based directly on cross-bridge kinetics. Journal
 % of Biomechanical Engineering, 112, 52-62.
 
-clear all
+close all;
+clear;
 global N_OnTime N_OffTime N_ExciteLevel
 global M_StartLength M_StartTime M_Velocity M_StopTime M_Parameters
 
@@ -22,9 +23,9 @@ N_ExciteLevel=1.; % 0 - 1
 
 % muscle kinematics
 M_StartLength=0.15; % m
-M_StartTime=0.; % s
-M_Velocity=0.; % m/s (+ for lengthening, - for shortening)
-M_Distance=0.; % m (+ for lengthening, - for shortening)
+M_StartTime=0; % s
+M_Velocity=0; % m/s (+ for lengthening, - for shortening)
+M_Distance=0; % m (+ for lengthening, - for shortening)
 
 % musculotendon parameters
 taua=0.005; % activation time constant (s)
@@ -46,7 +47,7 @@ kappa=0.033; % tendon compliance
 % compute initial musculotendon length
 MT_StartLength=M_StartLength+lt0;
 % compute stop time for muscle length change
-if M_Velocity~=0;
+if M_Velocity~=0
     M_StopTime=M_StartTime+M_Distance/M_Velocity;
 else
     M_StopTime=SimulationTime;
