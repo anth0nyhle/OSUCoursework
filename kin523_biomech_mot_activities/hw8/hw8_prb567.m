@@ -17,9 +17,31 @@ time = frame .* delta_t;
 r_AchT = 4.5 / 100; % Achilles Tendon moment arm in m
 r_TibA = 4.3 / 100; % Tibialis Anterior moment arm in m
 
-F_AchT = RJM ./ r_AchT;
-F_TibA = RJM ./ r_TibA;
+% F_AchT = RJM ./ r_AchT;
+% F_TibA = zeros(length(frame));
 
+F_AchT = [];
+F_TibA = [];
+
+for i = 1:length(frame)
+    if RJM(i) > 0
+        F_AT = RJM(i) / r_AchT;
+        F_AchT = cat(1, F_AchT, F_AT);
+        F_TA = 0;
+        F_TibA = cat(1, F_TibA, F_TA);
+    elseif RJM(i) < 0
+        F_AT = 0;
+        F_AchT = cat(1, F_AchT, F_AT);
+        F_TA = RJM(i) / r_TibA;
+        F_TibA = cat(1, F_TibA, F_TA);
+    else
+        F_AT = 0;
+        F_AchT = cat(1, F_AchT, F_AT);
+        F_TA = 0;
+        F_TibA = cat(1, F_TibA, F_TA);
+    end
+end
+        
 figure(1);
 plot(time, F_AchT);
 xlim([0 2.4]);
@@ -55,6 +77,19 @@ max_isoF = max_stress * (Sol_PCSA + MG_PCSA + LG_PCSA);
 percent_Fm = (F_AchT(max_F_idx) / max_isoF) * 100; % or a * 100
 
 % Problem 7
-F_contactC = RJF_C - (F_Sol + F_MG + F_LG);
-F_contactS = RJF_S - (F_Sol + F_MG + F_LG);
+F_contactC = RJF_C + (sind(82) .* F_AchT) + (sin(60) .* F_TibA);
+F_contactS = RJF_S - (cosd(82) .* F_AchT) + (cosd(60) .* F_TibA);
 
+figure(3);
+plot(time, F_contactC);
+xlim([0 2.4]);
+xlabel('Time (s)');
+ylabel('Force (N)');
+title('Compressive Components over Time');
+
+figure(4);
+plot(time, F_contactS);
+xlim([0 2.4]);
+xlabel('Time (s)');
+ylabel('Force (N)');
+title('Shear Components over Time');
