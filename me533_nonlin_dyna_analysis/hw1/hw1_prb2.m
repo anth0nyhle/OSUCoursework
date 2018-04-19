@@ -6,7 +6,7 @@
 clear;
 close all;
 
-[x, y] = meshgrid(-.5:0.05:0.5, -.5:0.05:0.5);
+[x, y] = meshgrid(-5:0.5:5, -5:0.5:5);
 xdot = y + x .* (x^2 + y^2 - 1) .* sin(1 ./ (x^2 + y^2 - 1));
 ydot = -x + y .* (x^2 + y^2 - 1) .* sin(1 ./ (x^2 + y^2 - 1));
 
