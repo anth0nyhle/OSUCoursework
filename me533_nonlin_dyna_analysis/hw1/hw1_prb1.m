@@ -1,7 +1,7 @@
 % Created by: Anthony Le
 % Last updated: 04-15-2018
 
-% Homework 1
+% ME 533 - Homework 1
 %% Problem 1
 clear;
 close all;
