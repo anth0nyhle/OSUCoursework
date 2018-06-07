@@ -1,5 +1,5 @@
 % Created by: Anthony le
-% Last updated: 04-30-2018
+% Last updated: 04.30.2018
 
 % ME 533 - Homework 2
 %% Problem 1
