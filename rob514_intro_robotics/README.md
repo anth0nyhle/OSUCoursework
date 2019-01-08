@@ -2,4 +2,4 @@
 
 Instructor: Prof. William Smart
 
-Python; Need ROS
+Python; ROS
