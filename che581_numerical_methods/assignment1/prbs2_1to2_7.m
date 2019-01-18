@@ -2,13 +2,13 @@
 % Last updated: 01-17-2019
 
 % CHE 581: Assignment 1
-% Textbook problems 2.1-2.7, 2.17, 2.18
+% Textbook (4th Edition) Problems 2.1-2.7, 2.17, 2.18
 % Due: 01-23-2019
-%%
+%% Problem 2.1
 close all;
 clear;
+clc;
 
-%% Problem 2.1
 disp('Problem 2.1');
 % output mat A w/ size 3x3
 A = [1:3; 2:2:6; 3:-1:1];
@@ -35,6 +35,10 @@ disp(A);
 disp('----------------------');
 
 %% Problem 2.2
+close all;
+clear;
+clc;
+
 disp('Problem 2.2');
 t = rand(5, 1); % vec of random numbers
 
@@ -53,44 +57,66 @@ disp(y2);
 disp('----------------------');
 
 %% Problem 2.3
+close all;
+clear;
+clc;
+
 disp('Problem 2.3');
-y3 = rand(5, 1); % vec of random numbers
+y = rand(5, 1); % vec of random numbers
 z = rand(5, 1); % vec of random numbers
 a = 3; % arbitrary scalar
 b = 8; % arbitrary scalar
 
  % exp; output vec x, same length as y3 and z
-x = (y3 .* (a + b .* z).^1.8) / (z .* (1 - y3));
+x = (y .* (a + b .* z).^1.8) / (z .* (1 - y));
 disp(x);
 
 disp('----------------------');
 
 %% Problem 2.4
+close all;
+clear;
+clc;
+
 disp('Problem 2.4');
 % (a)
 disp('(a)');
-A2 = [1 2; 3 4; 5 6];
-disp(A2(2, :)');
+A = [1 2; 3 4; 5 6];
+disp(A(2, :)');
 
 % (b)
 disp('(b)');
-y4 = (0:1.5:7)';
-disp(y4);
+y = (0:1.5:7)';
+disp(y);
 
 % (c)
 disp('(c)');
-a2 = 2; b2 = 8; c = 4;
-disp(a2 + b2 / c);
+a = 2; b = 8; c = 4;
+disp(a + b / c);
 
 disp('----------------------');
 
 %% Problem 2.5
-disp('Problem 2.5');
+close all;
+clear;
+clc;
 
+disp('Problem 2.5');
+x = (0:1/256:2);
+f_x = (1 ./ ((x - 0.3).^2 + 0.01)) + (1 ./ ((x - 0.9).^2 + 0.04)) - 6;
+
+figure();
+plot(x, f_x);
+hold on;
+title("Hump Function");
 
 disp('----------------------');
 
 %% Problem 2.6
+close all;
+clear;
+clc;
+
 disp('Problem 2.6');
 disp('(a)');
 t1 = (4:6:35); disp(t1);
@@ -103,6 +129,10 @@ x2 = linspace(-4, 2, 7); disp(x2);
 disp('----------------------');
 
 %% Problem 2.7
+close all;
+clear;
+clc;
+
 disp('Problem 2.7');
 disp('(a)');
 v1 = linspace(-2, 1.5, 8); disp(v1);
