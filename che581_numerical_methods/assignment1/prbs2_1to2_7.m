@@ -41,13 +41,13 @@ t = rand(5, 1); % vec of random numbers
 % (a)
 disp('(a)');
 % exp; output vec y1, same length as t
-y1 = (6.*t.^3 - 3.*t - 4) ./ (8 * sin(5.*t));
+y1 = (6 * t.^3 - 3 * t - 4) ./ (8 * sin(5 * t));
 disp(y1);
 
 % (b)
 disp('(b)');
 % exp; output vec y2, same legnth as t
-y2 = ((6.*t - 4)./(8.*t) - ((pi/2).*t));
+y2 = ((6 * t - 4) ./ (8 * t) - ((pi / 2) * t));
 disp(y2);
 
 disp('----------------------');
@@ -60,7 +60,7 @@ a = 3; % arbitrary scalar
 b = 8; % arbitrary scalar
 
  % exp; output vec x, same length as y3 and z
-x = (y3 .* (a + b.*z).^1.8) / (z .* (1 - y3));
+x = (y3 .* (a + b .* z).^1.8) / (z .* (1 - y3));
 disp(x);
 
 disp('----------------------');
