@@ -115,7 +115,7 @@ while (1)
     eps = abs((x_new - x_old) / x_new);
     x_old = x_new;
     res = [x_old eps];
-    disp(res);
+    fprintf('x = %5.4f   error: %5.4f\n', res);
     if eps <= 1e-4; break; end
 end
 
