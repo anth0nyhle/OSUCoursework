@@ -1,5 +1,5 @@
 % Created by: Anthony H. Le
-% Last updated: 01-27-2019
+% Last updated: 01-28-2019
 
 % CHE 581: Assignment 2
 % Textbook Problems 3.1, 3.2, 3.5, 3.9, 3.12, 3.13, 5.1, 5.7, 5.13
@@ -106,6 +106,17 @@ close all;
 clear;
 clc;
 
+disp('Approximate the square root of any positive number.')
+a = input('Enter a positive number: ');
+x_old = input('Enter initial approximation: ');
 
+while (1)
+    x_new = (x_old + (a / x_old)) / 2;
+    eps = abs((x_new - x_old) / x_new);
+    x_old = x_new;
+    res = [x_old eps];
+    disp(res);
+    if eps <= 1e-4; break; end
+end
 
 disp('-------------------------------------------------');
