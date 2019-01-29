@@ -112,11 +112,11 @@ xlabel('Time (s)');
 ylabel('Force (N)');
 
 % open output file
-outptr=fopen('Hill_Muscle.csv','w');
+% outptr=fopen('Hill_Muscle.csv','w');
 % output data to file
-fprintf(outptr,'Time(s),Length(m),Activation,Force(N)\n');
-for i=1:1001
-    fprintf(outptr,'%6.3f,%7.3f,%5.3f,%8.3f\n',tout(i),lmt(i),qout(i,2),qout(i,3));
-end
+% fprintf(outptr,'Time(s),Length(m),Activation,Force(N)\n');
+% for i=1:1001
+%     fprintf(outptr,'%6.3f,%7.3f,%5.3f,%8.3f\n',tout(i),lmt(i),qout(i,2),qout(i,3));
+% end
 % close file
-fclose(outptr);
+% fclose(outptr);

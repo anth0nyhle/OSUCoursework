@@ -91,11 +91,11 @@ xlabel('Time (s)');
 ylabel('Force (N)');
 
 % open output file
-outptr=fopen('DM_Muscle.csv','w');
+% outptr=fopen('DM_Muscle.csv','w');
 % output data to file
-fprintf(outptr,'Time(s),Length(m),[Calcium],Force(N)\n');
-for i=1:1001
-    fprintf(outptr,'%6.3f,%f,%f,%f\n',tout(i),MT_Length(i),qout(i,1),MT_Force(i));
-end
+% fprintf(outptr,'Time(s),Length(m),[Calcium],Force(N)\n');
+% for i=1:1001
+%     fprintf(outptr,'%6.3f,%f,%f,%f\n',tout(i),MT_Length(i),qout(i,1),MT_Force(i));
+% end
 % close file
-fclose(outptr);
+% fclose(outptr);
