@@ -1,5 +1,5 @@
 % Created by: Anthony H. Le
-% Last updated: 01-28-2019
+% Last updated: 01-30-2019
 
 % CHE 581: Assignment 2
 % Textbook Problems 3.1, 3.2, 3.5, 3.9, 3.12, 3.13, 5.1, 5.7, 5.13
@@ -40,6 +40,24 @@ close all;
 clear;
 clc;
 
+% (a) graph
+disp('(a)');
+x = linspace(-2, 6, 1000);
+f_x = -12 - (21 * x) + (18 * (x.^2)) - (2.75 * (x.^3));
+
+figure();
+plot(x, f_x);
+grid on;
+
+% (b) bisection
+disp('(b)');
+x_l = -1; % initial lower bound
+x_u = 0; % initial upper bound
+
+
+
+% (c) false position
+disp('(c)');
 
 
 disp('-------------------------------------------------');

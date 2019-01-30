@@ -111,12 +111,18 @@ a = input('Enter a positive number: ');
 x_old = input('Enter initial approximation: ');
 
 while (1)
-    x_new = (x_old + (a / x_old)) / 2;
-    eps = abs((x_new - x_old) / x_new);
-    x_old = x_new;
-    res = [x_old eps];
-    fprintf('x = %5.4f   error: %5.4f\n', res);
-    if eps <= 1e-4; break; end
+    if x_old == 0
+        
+    elseif x_old < 0
+        
+    else
+        x_new = (x_old + (a / x_old)) / 2;
+        eps = abs((x_new - x_old) / x_new);
+        x_old = x_new;
+        res = [x_old eps];
+        fprintf('x = %5.4f   error: %5.4f\n', res);
+        if eps <= 1e-4; break; end
+    end
 end
 
 disp('-------------------------------------------------');
