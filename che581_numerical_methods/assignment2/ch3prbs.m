@@ -9,6 +9,8 @@ close all; % close all figures
 clear; % clear workspace
 clc; % clear command window
 
+disp('Problem 3.1');
+
 R = [0.9 1.5 1.3 1.3];
 d = [1 1.25 3.8 4.0];
 
@@ -26,6 +28,8 @@ disp('-------------------------------------------------');
 close all;
 clear;
 clc;
+
+disp('Problem 3.2');
 
 int_P = 100000; % dollars
 i = 0.05;
@@ -47,6 +51,8 @@ close all;
 clear;
 clc;
 
+disp('Problem 3.5');
+
 x = 0.9;
 odr_trm = 8;
 
@@ -63,6 +69,8 @@ disp('-------------------------------------------------');
 close all;
 clear;
 clc;
+
+disp('Problem 3.9');
 
 n = [0.036 0.020 0.015 0.030 0.022]';
 S = [0.0001 0.0002 0.0012 0.0007 0.0003]';
@@ -82,6 +90,8 @@ disp('-------------------------------------------------');
 close all;
 clear;
 clc;
+
+disp('Problem 3.12');
 
 % provided code from textbook
 % tstart = 0; tend = 20; ni = 8;
@@ -106,15 +116,28 @@ close all;
 clear;
 clc;
 
+disp('Problem 3.13');
+
 disp('Approximate the square root of any positive number.')
 a = input('Enter a positive number: ');
 x_old = input('Enter initial approximation: ');
 
 while (1)
-    if x_old == 0
-        
-    elseif x_old < 0
-        
+    if a == 0
+        x_new = 0;
+        eps = 0;
+        x_old = x_new;
+        res = [x_old eps];
+        fprintf('x = %5.4f   error: %5.4f\n', res);
+        if eps <= 1e-4; break; end
+    elseif a < 0
+        a1 = -a;
+        x_new = (x_old + (a1 / x_old)) / 2;
+        eps = abs((x_new - x_old) / x_new);
+        x_old = x_new;
+        res = [x_old eps];
+        fprintf('x = %5.4fi   error: %5.4f\n', res);
+        if eps <= 1e-4; break; end
     else
         x_new = (x_old + (a / x_old)) / 2;
         eps = abs((x_new - x_old) / x_new);
