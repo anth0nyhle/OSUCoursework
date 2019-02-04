@@ -1,5 +1,5 @@
 % Created by: Anthony H. Le
-% Last updated: 01-28-2019
+% Last updated: 02-01-2019
 
 % CHE 581: Assignment 2
 % Textbook Problems 3.1, 3.2, 3.5, 3.9, 3.12, 3.13, 5.1, 5.7, 5.13
@@ -118,27 +118,28 @@ clc;
 
 disp('Problem 3.13');
 
+% test for a = 0, 2, 4, -4
 disp('Approximate the square root of any positive number.')
 a = input('Enter a positive number: ');
 x_old = input('Enter initial approximation: ');
 
 while (1)
-    if a == 0
+    if a == 0 % if input is 0
         x_new = 0;
         eps = 0;
         x_old = x_new;
         res = [x_old eps];
         fprintf('x = %5.4f   error: %5.4f\n', res);
         if eps <= 1e-4; break; end
-    elseif a < 0
+    elseif a < 0 % if input is negative
         a1 = -a;
         x_new = (x_old + (a1 / x_old)) / 2;
         eps = abs((x_new - x_old) / x_new);
         x_old = x_new;
         res = [x_old eps];
-        fprintf('x = %5.4fi   error: %5.4f\n', res);
+        fprintf('x = %5.4fi   error: %5.4f\n', res); % print imaginary
         if eps <= 1e-4; break; end
-    else
+    else % if input is positive
         x_new = (x_old + (a / x_old)) / 2;
         eps = abs((x_new - x_old) / x_new);
         x_old = x_new;
