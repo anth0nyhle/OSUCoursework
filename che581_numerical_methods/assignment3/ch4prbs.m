@@ -1,5 +1,5 @@
 % Created by: Anthony H. Le
-% Last updated: 02-05-2019
+% Last updated: 02-06-2019
 
 % CHE 581: Assignment 3
 % Textbook Problems 4.2, 4.4, 4.11, 19.2, 19.12, 19.16
@@ -13,17 +13,20 @@ disp('Problem 4.2');
 
 % (a)
 disp('(a)')
+% bin_a = (1 * 2^(6)) + (0 * 2^(5)) + (1 * 2^(4)) + (1 * 2^(3)) + (0 * 2^(2)) + (0 * 2^(1)) + (1 * 2^(0));
 bin_a = bin2dec('1011001');
 disp(bin_a);
 
 % (b)
 disp('(b)')
+% bin_b = (0 * 2^(0)) + (0 * 2^(-1)) + (1 * 2^(-2)) + (0 * 2^(-3)) + (1 * 2^(-4)) + (1 * 2^(-5))
 bin_b1 = bin2dec('0');
 bin_b2 = (1 * 2^(-2)) + (1 * 2^(-4)) + (1 * 2^(-5));
 disp(bin_b1 + bin_b2);
 
 % (c)
 disp('(c)')
+% bin_c = (1 * 2^(2)) + (1 * 2^(1)) + (0 * 2^(0)) + (0 * 2^(-1)) + (1 * 2^(-2)) + (0 * 2^(-3)) + (0 * 2^(-4)) + (1 * 2^(-5))
 bin_c1 = bin2dec('110');
 bin_c2 = (1 * 2^(-2)) + (1 * 2^(-5));
 disp(bin_c1 + bin_c2);
@@ -60,13 +63,13 @@ clc;
 
 disp('Problem 4.11');
 x = pi / 3; % set x
-err_crtn = 5.00; % set error criterion
+err_crtn = 0.30; % percent, set error criterion
 
-[cos_val, cos_err] = eval_cos(x, err_crtn);
+[iter, cos_val, cos_err] = eval_cos(x, err_crtn);
 
-cos_table = [cos_val, cos_err];
+cos_table = [iter, cos_val, cos_err];
 
-fprintf(' cos(x)          error\n');
-fprintf('%5f %20.2f\n', cos_table');
+fprintf('iter   cos(x)       error\n');
+fprintf('%2d    %5f %10.2f\n', cos_table');
 
 disp('-------------------------------------------------');
