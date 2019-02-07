@@ -13,30 +13,37 @@ disp('Problem 19.2');
 
 % (a)
 disp('a');
+% anlytically
 
 
 % (b)
 disp('b');
+% single trap rule
 
 
 % (c)
 disp('c');
+% composite trap rule w/ n = 2, 4
 
 
 % (d)
 disp('d');
+% single Simpson's 1/3 rule
 
 
 % (e)
 disp('e');
+% composite Simpson's 1/3 rule w/ n = 4
 
 
 % (f)
 disp('f');
+% Simpson's 3/8 rule
 
 
 % (g)
 disp('g');
+% composite Simpson's rule w/ n = 5
 
 
 disp('-------------------------------------------------');

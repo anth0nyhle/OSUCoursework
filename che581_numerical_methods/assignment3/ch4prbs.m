@@ -52,7 +52,7 @@ end
 disp(e);
 disp(eps(1));
 
-% e == eps(1); % logic check from my eps vs eps from built-in function
+% e == eps(1); % logical check from my eps vs eps from built-in function
     
 disp('-------------------------------------------------');
 
@@ -63,13 +63,13 @@ clc;
 
 disp('Problem 4.11');
 x = pi / 3; % set x
-err_crtn = 0.30; % percent, set error criterion
+err_crtn = 0.01; % percent, set error criterion
 
-[iter, cos_val, cos_err] = eval_cos(x, err_crtn);
+[iter, cos_val, cos_err] = eval_cos(x, err_crtn); % function call eval_cos.m
 
-cos_table = [iter, cos_val, cos_err];
+cos_table = [iter, cos_val, cos_err]; % concat col vecs
 
-fprintf('iter   cos(x)       error\n');
-fprintf('%2d    %5f %10.2f\n', cos_table');
+fprintf('iter   cos(x)       error\n'); % print headers
+fprintf('%2d    %5f %10.2f\n', cos_table'); % print iterative values
 
 disp('-------------------------------------------------');
