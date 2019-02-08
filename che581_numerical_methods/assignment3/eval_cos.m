@@ -18,7 +18,7 @@ cos_err(1, 1) = NaN; % no previous approximation to calculate relative error
 
 while (1)
     if mod(i, 2) == 0 % alternate addition of negative term
-        apprx_val = apprx_val - ((x^n) / (factorial(n))); % current value
+        apprx_val = apprx_val - ((x^n) / (factorial(n))); % current approximation
         rel_err = (abs(apprx_val - cos_val(i-1, 1)) / apprx_val) * 100; % relative error
         cos_val(i, 1) = apprx_val;
         cos_err(i, 1) = rel_err;
@@ -26,7 +26,7 @@ while (1)
         n = n + 2;
         i = i + 1;
     elseif mod(i, 2) == 1 % alternate addition of positive term
-        apprx_val = apprx_val + ((x^n) / (factorial(n))); % current value
+        apprx_val = apprx_val + ((x^n) / (factorial(n))); % current approximation
         rel_err = (abs(apprx_val - cos_val(i-1, 1)) / apprx_val) * 100; % relative error
         cos_val(i, 1) = apprx_val;
         cos_err(i, 1) = rel_err;
