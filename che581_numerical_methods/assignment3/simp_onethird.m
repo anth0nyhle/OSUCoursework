@@ -26,7 +26,6 @@ x_0 = a; % initialize 1st x point
 base_w = (b - a) / n; % base width, dependent on n number of segments
 S = zeros(n/2, 1); % allocate memory based on n number of segments
 
-% modified trap code
 for i = 1:n/2
     x_1 = x_0 + base_w;
     x_2 = x_1 + base_w;

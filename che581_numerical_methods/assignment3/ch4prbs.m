@@ -10,7 +10,6 @@ clear; % clear workspace
 clc; % clear command window
 
 disp('Problem 4.2');
-
 % (a)
 disp('(a)')
 % bin_a = (1 * 2^(6)) + (0 * 2^(5)) + (1 * 2^(4)) + (1 * 2^(3)) + (0 * 2^(2)) + (0 * 2^(1)) + (1 * 2^(0));

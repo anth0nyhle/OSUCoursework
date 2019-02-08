@@ -30,14 +30,14 @@ S = zeros(n, 1); % allocate memory based on n number of segments
 
 % modified trap code
 for i = 1:n
-    x_b = x_a + base_w;
-    avg_h = (func(x_a, varargin{:}) + func(x_b, varargin{:})) / 2;
-    s = base_w * avg_h;
-    S(i, 1) = s;
-    x_a = x_b;
+    x_b = x_a + base_w; % next point
+    avg_h = (func(x_a, varargin{:}) + func(x_b, varargin{:})) / 2; % avg height
+    s = base_w * avg_h; % area
+    S(i, 1) = s; % store computed area of segment
+    x_a = x_b; % next segment
 end
 
-I = sum(S);
+I = sum(S); % sum of all segment areas
 
 % original trap code from textbook
 % for i = 1:n-1
