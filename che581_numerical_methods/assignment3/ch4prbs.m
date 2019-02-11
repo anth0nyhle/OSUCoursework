@@ -1,5 +1,5 @@
 % Created by: Anthony H. Le
-% Last updated: 02-06-2019
+% Last updated: 02-11-2019
 
 % CHE 581: Assignment 3
 % Textbook Problems 4.2, 4.4, 4.11, 19.2, 19.12, 19.16
@@ -40,15 +40,11 @@ clc;
 disp('Problem 4.4');
 e = 1; % set epsilon to 1
 
-for i = 1:100 % overkill, only need ~60 iterations
-    if 1 + e <= 1 % Step 2, 4
-        e = 2 * e; % Step 5
-    else
-        e = e / 2; % Step 3
-    end
+while (1 + e) > 1 % Step 2, 4
+    e = e / 2; % Step 3
 end
 
-disp(e);
+disp(e * 2); % Step 5
 disp(eps(1));
 
 % e == eps(1); % logical check from my eps vs eps from built-in function
@@ -68,7 +64,7 @@ err_crtn = 0.01; % percent, set error criterion
 
 cos_table = [iter, cos_val, cos_err]; % concat col vecs
 
-fprintf('iter   cos(x)       error\n'); % print headers
-fprintf('%2d    %5f %10.2f\n', cos_table'); % print iterative values
+fprintf('iter   cos(x)     apprx err  true err\n'); % print headers
+fprintf('%2d    %5f    %8.4f   %8.4f\n', cos_table'); % print iterative values
 
 disp('-------------------------------------------------');
