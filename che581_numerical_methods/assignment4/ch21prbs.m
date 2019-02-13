@@ -9,6 +9,9 @@ close all; % close all figures
 clear; % clear workspace
 clc; % clear command window
 
+disp('Problem 21.13');
+
+
 
 disp('-------------------------------------------------');
 
@@ -17,6 +20,9 @@ close all;
 clear;
 clc;
 
+disp('Problem 21.28');
+
+
 
 disp('-------------------------------------------------');
 
@@ -24,6 +30,9 @@ disp('-------------------------------------------------');
 close all;
 clear;
 clc;
+
+disp('Additional Problem (see handout)');
+
 
 
 disp('-------------------------------------------------');
