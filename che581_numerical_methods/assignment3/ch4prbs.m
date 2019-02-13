@@ -4,7 +4,7 @@
 % CHE 581: Assignment 3
 % Textbook Problems 4.2, 4.4, 4.11, 19.2, 19.12, 19.16
 % Due: 02-11-2019
- %% Problem 4.2
+%% Problem 4.2
 close all; % close all figures
 clear; % clear workspace
 clc; % clear command window

@@ -22,7 +22,6 @@ bx_1 = 1;
 ay_1 = -1;
 by_1 = 1;
 I_1 = twoDtrap(f_xy, ax_1, bx_1, ay_1, by_1, n);
-% I = integral2(f_xy1, ax_1, bx_1, ay_1, by_1);
 fprintf('I_1 = %5.4f\n', I_1);
 
 ax_2 = -2;
@@ -30,7 +29,6 @@ bx_2 = 2;
 ay_2 = -2;
 by_2 = 2;
 I_2 = twoDtrap(f_xy, ax_2, bx_2, ay_2, by_2, n);
-I = integral2(f_xy1, ax_2, bx_2, ay_2, by_2);
 fprintf('I_2 = %5.4f\n', I_2);
 
 ax_3 = -3;
