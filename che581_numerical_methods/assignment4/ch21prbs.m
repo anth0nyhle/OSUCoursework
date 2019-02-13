@@ -1,5 +1,5 @@
 % Created by: Anthony H. Le
-% Last updated: 02-12-2019
+% Last updated: 02-13-2019
 
 % CHE 581: Assignment 4
 % Textbook Problems 21.13, 21.28, Additional Problem
@@ -32,6 +32,8 @@ clear;
 clc;
 
 disp('Additional Problem (see handout)');
+
+f = @(xx) sin(50 .* xx) .* xx.^2;
 
 
 
