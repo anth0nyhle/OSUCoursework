@@ -55,8 +55,30 @@ disp('Problem 21.28');
 
 time = [0 5 10 15 20 25]'; % time, min
 T = [80 44.5 30.0 24. 21.7 20.7]'; % temperature, deg C
+T_a = 80; % temperature, deg C
+n = length(time);
 
+dTdt = zeros(n, 1);
 
+for i = 1:n
+    if i == 1 % forward finite-diff method, first point
+        diff = (-T(i+2) + 4 * T(i+1) - 3 * T(i)) / (2 * (time(i+1) - time(i)));
+        dTdt(i, 1) = diff;
+    elseif i >= 2 && i < n % center finite-diff method, interior points
+        diff = (T(i+1) - T(i-1)) / (2 * (time(i+1) - time(i-1)));
+        dTdt(i, 1) = diff;
+    elseif i == n % backward finite-diff method, last point
+        diff = (3 * T(i) - 4 * T(i-1) + T(i-2)) / (2 * (time(i) - time(i-1)));
+        dTdt(i, 1) = diff;
+    end
+end
+
+figure();
+plot(T-T_a, dTdt, '-*');
+hold on;
+xlabel('T - T_{a} (deg C)');
+ylabel('dT/dt (deg C/min)');
+hold off;
 
 disp('-------------------------------------------------');
 
