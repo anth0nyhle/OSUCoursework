@@ -23,21 +23,21 @@ xlabel('Time (s)');
 ylabel('Position (m)');
 hold off;
 
-% (a) 2nd-order correct centered finite-difference method
+% (a) 2nd-order correct centered finite-diff method
 disp('(a) O(h^2) centered finite-difference method');
 v_a = (x(i+1) - x(i-1)) / (2 * h); % velocity @ t = 10, m/s
 a_a = (x(i+1) - (2 * x(i)) + x(i-1)) / (h^2); % acceleration @ t = 10, m/s^2
 fprintf('vel = %5.2f\n', v_a);
 fprintf('accel = %5.2f\n', a_a);
 
-% (b) 2nd-order correct forward fiite-difference method
+% (b) 2nd-order correct forward finite-diff method
 disp('(b) O(h^2) forward fiite-difference method');
 v_b = (-x(i+2) + (4 * x(i+1)) - (3 * x(i))) / (2 * h); % velocity @ t = 10, m/s
 a_b = (-x(i+3) + (4 * x(i+2)) - (5 * x(i+1)) + (2 * x(i))) / (h^2); % acceleration @ t = 10, m/s^2
 fprintf('vel = %5.2f\n', v_b);
 fprintf('accel = %5.2f\n', a_b);
 
-% (c) 2nd-order correct backward finite-difference method
+% (c) 2nd-order correct backward finite-diff method
 disp('(c) O(h^2) backward finite-difference method');
 v_c = ((3 * x(i)) - (4 * x(i-1)) + x(i-2)) / (2 * h); % velocity @ t = 10, m/s
 a_c = ((2 * x(i)) - (5 * x(i-1)) + (4 * x(i-2)) - x(i-3)) / (h^2); % acceleration @ t = 10, m/s^2
@@ -76,6 +76,7 @@ end
 figure();
 plot(T-T_a, dTdt, '-*');
 hold on;
+title('');
 xlabel('T - T_{a} (deg C)');
 ylabel('dT/dt (deg C/min)');
 hold off;
