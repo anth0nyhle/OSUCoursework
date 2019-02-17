@@ -1,5 +1,5 @@
 % Created by: Anthony H. Le
-% Last updated: 02-13-2019
+% Last updated: 02-17-2019
 
 % CHE 581: Assignment 4
 % Textbook Problems 21.13, 21.28, Additional Problem
@@ -56,18 +56,18 @@ disp('Problem 21.28');
 time = [0 5 10 15 20 25]'; % time, min
 T = [80 44.5 30.0 24. 21.7 20.7]'; % temperature, deg C
 T_a = 80; % temperature, deg C
-n = length(time);
+n_a = length(time);
 
-dTdt = zeros(n, 1);
+dTdt = zeros(n_a, 1);
 
-for i = 1:n
+for i = 1:n_a
     if i == 1 % forward finite-diff method, first point
         diff = (-T(i+2) + 4 * T(i+1) - 3 * T(i)) / (2 * (time(i+1) - time(i)));
         dTdt(i, 1) = diff;
-    elseif i >= 2 && i < n % center finite-diff method, interior points
+    elseif i >= 2 && i < n_a % center finite-diff method, interior points
         diff = (T(i+1) - T(i-1)) / (2 * (time(i+1) - time(i-1)));
         dTdt(i, 1) = diff;
-    elseif i == n % backward finite-diff method, last point
+    elseif i == n_a % backward finite-diff method, last point
         diff = (3 * T(i) - 4 * T(i-1) + T(i-2)) / (2 * (time(i) - time(i-1)));
         dTdt(i, 1) = diff;
     end
@@ -80,18 +80,5 @@ title('');
 xlabel('T - T_{a} (deg C)');
 ylabel('dT/dt (deg C/min)');
 hold off;
-
-disp('-------------------------------------------------');
-
-%% Additional Problem
-close all;
-clear;
-clc;
-
-disp('Additional Problem (see handout)');
-
-f = @(xx) sin(50 .* xx) .* xx.^2;
-
-
 
 disp('-------------------------------------------------');
