@@ -18,15 +18,15 @@ h = 2; % step size, time, s
 i = 6; % index @ t = 10
 
 % plot data to visualize function
-disp('Plot generated for visualization, see Figure 1');
 figure();
 plot(t, x, '-*');
 hold on;
+title('');
 xlabel('Time (s)');
 ylabel('Position (m)');
 hold off;
 
-% (a) 2nd-order accurate centered finite-diff method
+% (a) 2nd-order cor centered finite-diff method
 disp('(a) O(h^2) centered finite-difference method');
 v_a = (x(i+1) - x(i-1)) / (2 * h); % velocity @ t = 10, m/s
 a_a = (x(i+1) - (2 * x(i)) + x(i-1)) / (h^2); % acceleration @ t = 10, m/s^2
@@ -55,7 +55,7 @@ clear;
 clc;
 
 disp('Problem 21.28');
-disp('See Figure 1');
+disp('See figure');
 
 % data provided by textbook
 time = [0 5 10 15 20 25]'; % time, min
