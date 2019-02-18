@@ -12,7 +12,7 @@ clc;
 disp('Additional Problem (see handout)');
 
 % provided function
-f = @(xx) sin(50 .* xx) .* xx.^2;
+f = @(xx) sin(50 .* xx) .* xx.^2 + (50 .* xx);
 
 % (a)
 disp('(a) See Figure 1');
@@ -36,7 +36,7 @@ hold off;
 
 % (b)
 disp('(b) See Figure 2');
-g = @(xx) 50 * cos(50 .* xx) .* xx.^2 + 2 * sin(50 .* xx) .* xx; % derivative of f(x)
+g = @(xx) 50 * cos(50 .* xx) .* xx.^2 + 2 * sin(50 .* xx) .* xx + 50; % derivative of f(x)
 tru_derv_b = g(xx_a);
 
 % compute true percent relative error for each diff approx method

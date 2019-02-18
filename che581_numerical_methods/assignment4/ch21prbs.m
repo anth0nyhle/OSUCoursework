@@ -59,21 +59,22 @@ disp('See Figure 1');
 
 % data provided by textbook
 time = [0 5 10 15 20 25]'; % time, min
-T = [80 44.5 30.0 24. 21.7 20.7]'; % temperature, deg C
-T_a = 80; % temperature, deg C
+T = [80 44.5 30.0 24.1 21.7 20.7]'; % temperature, deg C
+T_a = 20; % temperature, deg C
 n_a = length(time); % vec length
+h = 5; % step size, min
 
 dTdt = zeros(n_a, 1); % allocate memory for faster computing
 
 for i = 1:n_a % mixed finite-diff method, all 2nd-order accurate
     if i == 1 % forward finite-diff method, first point
-        diff = (-T(i+2) + 4 * T(i+1) - 3 * T(i)) / (2 * (time(i+1) - time(i)));
+        diff = (-T(i+2) + 4 * T(i+1) - 3 * T(i)) / (2 * h);
         dTdt(i, 1) = diff;
     elseif i >= 2 && i < n_a % center finite-diff method, interior points
-        diff = (T(i+1) - T(i-1)) / (2 * (time(i+1) - time(i-1)));
+        diff = (T(i+1) - T(i-1)) / (2 * h);
         dTdt(i, 1) = diff;
     elseif i == n_a % backward finite-diff method, last point
-        diff = (3 * T(i) - 4 * T(i-1) + T(i-2)) / (2 * (time(i) - time(i-1)));
+        diff = (3 * T(i) - 4 * T(i-1) + T(i-2)) / (2 * h);
         dTdt(i, 1) = diff;
     end
 end
@@ -85,6 +86,7 @@ y_resid = dTdt - y_fit; % residual values
 SS_resid = sum(y_resid.^2); % residual sum of squares
 SS_total = sum((dTdt - mean(dTdt)).^2); % total sum of squares
 rsq = 1 - (SS_resid / SS_total); % compute R^2 value
+fprintf('slope = %5.4f\ny-int = %5.4f\n', p_fit(1), p_fit(2));
 
 % dT/dt vs (T-T_a) w/ linear regression
 figure();
@@ -92,7 +94,7 @@ plot(T-T_a, dTdt, 'o');
 hold on;
 plot(T-T_a, y_fit);
 title('Linear regression relation b/w \itdT/dt & \it(T-T_{a})');
-legend('data', ['linear fit\newlineR^{2} =' num2str(rsq)]);
+legend('data', ['linear fit\newlineR^{2} = ' num2str(rsq)]);
 xlabel('\it (T - T_{a}) \rm (\circC)');
 ylabel('\it dT/dt \rm (\circC/min)');
 hold off;
