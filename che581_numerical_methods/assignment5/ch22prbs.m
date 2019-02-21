@@ -1,5 +1,5 @@
 % Created by: Anthony H. Le
-% Last updated: 02-19-2019
+% Last updated: 02-20-2019
 
 % CHE 581: Assignment 5
 % Textbook Problems 22.1, 22.6, 22.10, 22.11, 22.12. 22.14
@@ -11,7 +11,7 @@ clc; % clear command window
 
 disp('Problem 22.1');
 
-
+disp('See pdf file for written work.');
 
 disp('-------------------------------------------------');
 
