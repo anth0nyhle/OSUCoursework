@@ -10,8 +10,21 @@ clear; % clear workspace
 clc; % clear command window
 
 disp('Problem 22.1');
-
 disp('See pdf file for written work.');
+
+dydt = @(y, t) y * t^2 - 1.1 * y;
+
+% (a) analytically
+
+
+% (b) Euler's method w/ h = 0.5, 0.25
+
+
+% (c) midpoint method w/ h = 0.5
+
+
+% (d) 4th-order RK method w/ h = 0.5
+
 
 disp('-------------------------------------------------');
 
