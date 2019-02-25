@@ -9,13 +9,13 @@ function [xx, f_prime] = cen_diff2(func, n, x)
 %     f_prime: diff approx at each xx point
 
 h = 1 / n; % step size
-xx = x(3:n-2)'; % restrict domain
+xx = x(2:n-1)'; % restrict domain
 
 f_prime = zeros(length(xx), 1); % allocate memory for faster computing
 
-for i = 3:n-2
+for i = 2:n-1
     cfdm = (func(x(i+1)) - func(x(i-1))) / (2 * h);
-    f_prime(i-2, 1) = cfdm;
+    f_prime(i-1, 1) = cfdm;
 end
 
 end

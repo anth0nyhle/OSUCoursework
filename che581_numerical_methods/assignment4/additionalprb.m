@@ -1,5 +1,5 @@
 % Created by: Anthony H. Le
-% Last updated: 02-18-2019
+% Last updated: 02-25-2019
 
 % CHE 581: Assignment 4
 % Textbook Problems 21.13, 21.28, Additional Problem
@@ -18,16 +18,16 @@ f = @(xx) sin(50 .* xx) .* xx.^2 + (50 .* xx);
 disp('(a) See Figure 1');
 n_a = 100; % number of steps
 x_a = linspace(0, 1, n_a); % original interval
-[xx_a, ffdm_a] = for_diff2(f, n_a, x_a); % calls forward diff function, 2nd-order accurate
-[~, cfdm_a] = cen_diff2(f, n_a, x_a); % calls centered diff function, 2nd-order accurate
-[~, bfdm_a] = back_diff2(f, n_a, x_a); % calls backward diff function, 2nd-order accurate
+[xx_aff, ffdm_a] = for_diff2(f, n_a, x_a); % calls forward diff function, 2nd-order accurate
+[xx_acf, cfdm_a] = cen_diff2(f, n_a, x_a); % calls centered diff function, 2nd-order accurate
+[xx_abf, bfdm_a] = back_diff2(f, n_a, x_a); % calls backward diff function, 2nd-order accurate
 
 % plot all diff approx methods of function
 figure();
-plot(xx_a, ffdm_a, '-o');
+plot(xx_aff, ffdm_a, '-o');
 hold on;
-plot(xx_a, cfdm_a, '-o');
-plot(xx_a, bfdm_a, '-o');
+plot(xx_acf, cfdm_a, '-o');
+plot(xx_abf, bfdm_a, '-o');
 title('(a) f''(xx) using 2nd-order Diff Approx Methods, n = 100');
 legend('forward diff', 'centered diff', 'backward diff', 'Location', 'northwest');
 xlabel('\bf{xx}');
@@ -37,20 +37,23 @@ hold off;
 % (b)
 disp('(b) See Figure 2');
 g = @(xx) 50 * cos(50 .* xx) .* xx.^2 + 2 * sin(50 .* xx) .* xx + 50; % derivative of f(x)
-tru_derv_b = g(xx_a);
+tru_derv_bff = g(xx_aff);
+tru_derv_bcf = g(xx_acf);
+tru_derv_bbf = g(xx_abf);
+
 
 % compute true percent relative error for each diff approx method
-et_ffdm = (abs(tru_derv_b - ffdm_a) ./ tru_derv_b) * 100;
-et_cfdm = (abs(tru_derv_b - cfdm_a) ./ tru_derv_b) * 100;
-et_bfdm = (abs(tru_derv_b - bfdm_a) ./ tru_derv_b) * 100;
+et_ffdm = (abs(tru_derv_bff - ffdm_a) ./ tru_derv_bff) * 100;
+et_cfdm = (abs(tru_derv_bcf - cfdm_a) ./ tru_derv_bcf) * 100;
+et_bfdm = (abs(tru_derv_bbf - bfdm_a) ./ tru_derv_bbf) * 100;
 
 figure();
 % plot all diff approx methods w/ true derivative
 subplot(1, 2, 1);
-plot(xx_a, ffdm_a, '-o');
+plot(xx_aff, ffdm_a, '-o');
 hold on;
-plot(xx_a, cfdm_a, '-o');
-plot(xx_a, bfdm_a, '-o');
+plot(xx_acf, cfdm_a, '-o');
+plot(xx_abf, bfdm_a, '-o');
 plot(x_a, g(x_a));
 title('(b) f''(xx) using 2nd-order Accurate Diff Approx Methods, n = 100');
 legend('forward diff', 'centered diff', 'backward diff', 'true', 'Location', 'northwest');
@@ -60,10 +63,10 @@ hold off;
 
 % plot true percent realtive error for each diff approx method
 subplot(1, 2, 2);
-plot(xx_a, et_ffdm, '-*');
+plot(xx_aff, et_ffdm, '-*');
 hold on;
-plot(xx_a, et_cfdm, '-*');
-plot(xx_a, et_bfdm, '-*');
+plot(xx_acf, et_cfdm, '-*');
+plot(xx_abf, et_bfdm, '-*');
 title('(b) True Percent Relative Errors');
 legend('forward diff', 'centered diff', 'backward diff');
 xlabel('\bf{xx}');
@@ -96,26 +99,27 @@ xlabel('\bf{xx}');
 ylabel('\bf{f''(xx)}');
 hold off;
 
-% (d)
-disp('(d) See Figure 4');
+% (e)
+disp('(e) See Figure 4');
 n_d = 50; % number of steps
 x_d = linspace(0, 1, n_d); % original interval
-[xx_d, cfdm_d1] = cen_diff2(f, n_d, x_d); % calls centered diff function, 2nd-order accurate
-[~, cfdm_d2] = cen_diff4(f, n_d, x_d); % calls centered diff function, 4th-order accurate
-tru_derv_d = g(xx_d);
+[xx_d1, cfdm_d1] = cen_diff2(f, n_d, x_d); % calls centered diff function, 2nd-order accurate
+[xx_d2, cfdm_d2] = cen_diff4(f, n_d, x_d); % calls centered diff function, 4th-order accurate
+tru_derv_d1 = g(xx_d1);
+tru_derv_d2 = g(xx_d2);
 
 % compute true relative percent error for each order accurate derivative
-et_cfdm_d1 = (abs(tru_derv_d - cfdm_d1) ./ tru_derv_d) * 100;
-et_cfdm_d2 = (abs(tru_derv_d - cfdm_d2) ./ tru_derv_d) * 100;
+et_cfdm_d1 = (abs(tru_derv_d1 - cfdm_d1) ./ tru_derv_d1) * 100;
+et_cfdm_d2 = (abs(tru_derv_d2 - cfdm_d2) ./ tru_derv_d2) * 100;
 
 figure();
 % plot both order accurate derivative
 subplot(1, 2, 1);
-plot(xx_d, cfdm_d1, '-s');
+plot(xx_d1, cfdm_d1, '-s');
 hold on;
-plot(xx_d, cfdm_d2, '-s');
+plot(xx_d2, cfdm_d2, '-s');
 plot(x_d, g(x_d));
-title('(d) f''(xx) using Centered Diff Method');
+title('(e) f''(xx) using Centered Diff Method');
 legend('O(\ith^{2})', 'O(\ith^{4})', 'true', 'Location', 'northwest');
 xlabel('\bf{xx}');
 ylabel('\bf{f''(xx)}');
@@ -123,10 +127,10 @@ hold off;
 
 % plot respective true percent error for each order accurate derivative
 subplot(1, 2, 2);
-plot(xx_d, et_cfdm_d1, '-x');
+plot(xx_d1, et_cfdm_d1, '-x');
 hold on;
-plot(xx_d, et_cfdm_d2, '-x');
-title('(d) True Percent Relative Errors');
+plot(xx_d2, et_cfdm_d2, '-x');
+title('(e) True Percent Relative Errors');
 legend('O(\ith^{2})', 'O(\ith^{4})');
 xlabel('\bfxx');
 ylabel('\bf\epsilon_{t} (%)');
