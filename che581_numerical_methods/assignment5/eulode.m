@@ -4,7 +4,7 @@ function [t, y] = eulode(dydt, t_span, y0, h, varargin)
 %          uses Euler's method to integrate an ODE
 % input:
 %     dydt = name of the M-file that evaluates the ODE
-%     tspan = [ti, tf] where ti and tf = initital and final values of
+%     t_span = [ti, tf] where ti and tf = initital and final values of
 %     independent variable
 %     y0 = initial value of dependent variable
 %     h = step size

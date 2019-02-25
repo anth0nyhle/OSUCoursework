@@ -35,7 +35,45 @@ clc;
 
 disp('Problem 22.6');
 
+h = 1; % s, step size, delta t
+% t_span = [0, 1000]; % s, time interval
+t_span = 0:h:500;
+v0 = 1500; % m/s, initial velocity @ t = 0
+x0 = 0; % m, initial position @ t = 0
 
+g0 = 9.81; % m/s^2, gravitational acceleration at earth's surface
+R = 6.37 * 10^6; % m, earth's radius
+dvdt = @(t, x) -g0 * (R^2 / (R + x)^2);
+% dxdt = @(t, x) -g0 * (R^2 / (R + x).^2) .* t;
+
+v = v0 * ones(length(t_span), 1);
+x = x0 * ones(length(t_span), 1);
+
+for i = 1:length(t_span)-1
+    v(i+1) = v(i) + dvdt(t_span(i), x(i)) * h;
+    x(i+1) = x(i) + v(i) * h;
+end
+
+max_x = max(x);
+ind_x = find(x == max_x);
+v_max_x = v(ind_x);
+
+max_label = ['max height = ' num2str(max_x) ' m @ time = ' num2str(t_span(ind_x)) ' s'];
+
+figure();
+yyaxis left;
+plot(t_span, v);
+xlabel('Time (s)');
+ylabel('Upward velocity (m/s)');
+hold on;
+plot(t_span(ind_x), v_max_x, '*');
+yyaxis right;
+plot(t_span, x);
+plot(t_span(ind_x), max_x, '*');
+text(t_span(ind_x)-20, max_x+30000, max_label);
+ylabel('Position (m)');
+grid on;
+hold off;
 
 disp('-------------------------------------------------');
 
