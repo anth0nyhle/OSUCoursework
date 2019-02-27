@@ -17,13 +17,15 @@ if nargin < 4
     error('at least 4 input arguments required')
 end
 
-ti = t_span(1); tf = t_span(2);
+ti = t_span(1);
+tf = t_span(2);
 
 if ~(tf > ti)
-    error('upper limite must be greater than lower')
+    error('upper limit must be greater than lower')
 end
 
-t = (ti:h:tf)'; n = length(t);
+t = (ti:h:tf)';
+n = length(t);
 
 % if necessary, add an additional value of t so that range goes from t =
 % t_i to t_f
