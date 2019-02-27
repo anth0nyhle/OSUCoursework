@@ -1,5 +1,5 @@
 % Created by: Anthony H. Le
-% Last updated: 02-26-2019
+% Last updated: 02-27-2019
 
 % CHE 581: Assignment 5
 % Textbook Problems 22.1, 22.6, 22.10, 22.11, 22.12. 22.14
@@ -180,19 +180,62 @@ Year = data(:, 1); % create separate 48 by 1 col vec
 Moose = data(:, 2); % create separate 48 by 1 col vec
 Wolves = data(:, 3); % create separate 48 by 1 col vec
 
+h = 1;
+t_span = [1959, 2006];
+y0 = [563, 20];
+
 % (a)
-disp('(a)');
+disp('(a) See Figure 1');
 
-% x = number of prey (i.e., moose)
-% y = number of predators (i.e., wolves)
+% x or y(1) = number of prey (i.e., moose)
+% y or y(2) = number of predators (i.e., wolves)
 
-dxdt = @(t, x, y) (a * x) - (b * x * y);
-dydt = @(t, x, y) -(c * y) + (d * x * y);
+% dxdt = @(t, x, y) (a * x) - (b * x * y);
+% dydt = @(t, x, y) -(c * y) + (d * x * y);
 
+[t, y] = rk4sys(@predprey, t_span, y0, h, a, b, c, d);
 
+yresid_prey = Moose - y(:, 1);
+yresid_pred = Wolves - y(:, 2);
+SSresid_prey = sum(yresid_prey.^2);
+SSresid_pred = sum(yresid_pred.^2);
+SS_total_prey = sum((Moose - mean(Moose)).^2);
+SS_total_pred = sum((Wolves - mean(Wolves)).^2);
+rsq_prey = 1 - (SSresid_prey / SS_total_prey);
+rsq_pred = 1 - (SSresid_pred / SS_total_pred);
+
+prey_rsq = ['Prey R^{2}: ' num2str(rsq_prey)];
+pred_rsq = ['Predator R^{2}: ' num2str(rsq_pred)];
+
+figure();
+yyaxis left;
+plot(t, y(:, 1));
+title('Time-Series Plot: Simulated Model (RK4 Method) vs Recorded Data');
+xlabel('Year');
+ylabel('Prey Population');
+hold on;
+plot(Year, Moose, '-.');
+yyaxis right;
+plot(t, y(:, 2));
+plot(Year, Wolves, '-.');
+ylabel('Predator Population');
+legend('simulated prey', 'recorded prey', 'simulated predator', 'recorded predator');
+xlim(t_span)
+text(1961, 48, prey_rsq);
+text(1961, 46, pred_rsq);
+hold off;
 
 % (b)
-disp('(b)');
+disp('(b) See Figure 2');
 
+figure();
+plot(y(:, 1), y(:, 2));
+title('Phase-Plase Plot: Moose vs Wolves');
+xlabel('Prey Population');
+ylabel('Predator Population');
+hold on;
+plot(Moose, Wolves, '-.');
+legend('simulated', 'recorded');
+hold off;
 
 disp('-------------------------------------------------');
