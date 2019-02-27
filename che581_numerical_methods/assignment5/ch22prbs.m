@@ -12,9 +12,11 @@ clc; % clear command window
 disp('Problem 22.1');
 disp('See pdf file for written work.');
 
-dydt = @(t, y) y * t^2 - 1.1 * y;
+dydt = @(t, y) (y * t^2) - (1.1 * y);
 
 % (a) analytically
+y = @(t, y) y * ((t^3 / 3) - (1.1 * t));
+t_a = (0:0.5:2);
 
 
 % (b) Euler's method w/ h = 0.5, 0.25
@@ -99,7 +101,7 @@ dpdt = @(t, p) k_gm * (1 - (p / p_max)) * p; % function provided in prb 22.5
 % y_prime = @(t, y) 4 * exp(0.8 * t) - 0.5 * y; % example 22.2
 
 % labels for plot
-title = 'World''s Population from 1950 to 2050';
+title = '22.10 World''s Population from 1950 to 2050';
 xlabel = 'Year';
 ylabel = 'Population (million ppl)';
 
@@ -127,7 +129,7 @@ dpdt = @(t, p) k_gm * (1 - (p / p_max)) * p; % function provided in prb 22.5
 % y_prime = @(t, y) 4 * exp(0.8 * t) - 0.5 * y; % example 22.2
 
 % labels for plot
-title = 'World''s Population from 1950 to 2050';
+title = '22.11 World''s Population from 1950 to 2050';
 xlabel = 'Year';
 ylabel = 'Population (million ppl)';
 
@@ -155,7 +157,7 @@ dpdt = @(t, p) k_gm * (1 - (p / p_max)) * p; % function provided in prb 22.5
 % y_prime = @(t, y) 4 * exp(0.8 * t) - 0.5 * y; % example 22.2
 
 % labels for plot
-title = 'World''s Population from 1950 to 2050';
+title = '22.12 World''s Population from 1950 to 2050';
 xlabel = 'Year';
 ylabel = 'Population (million ppl)';
 
@@ -186,8 +188,8 @@ Wolves = data(:, 3); % create separate 48 by 1 col vec
 
 % parameters for integration methods
 h = 1;
-t_span = [1959, 2006];
-y0 = [563, 20];
+t_span = [1960, 2020];
+y0 = [610, 22];
 
 % (a)
 disp('(a) See Figure 1 & 2');
@@ -203,12 +205,12 @@ disp('(a) See Figure 1 & 2');
 [t2, y2] = eulsys(@predprey, t_span, y0, h, a, b, c, d); % calls eulsys method function file
 
 % determine sum of squares of residuals b/w RK4 model and data
-yresid_prey_rk4 = Moose - y1(:, 1);
-yresid_pred_rk4 = Wolves - y1(:, 2);
+yresid_prey_rk4 = Moose(2:length(Moose)) - y1(1:length(Moose)-1, 1);
+yresid_pred_rk4 = Wolves(2:length(Wolves)) - y1(1:length(Wolves)-1, 2);
 SSresid_prey_rk4 = sum(yresid_prey_rk4.^2);
 SSresid_pred_rk4 = sum(yresid_pred_rk4.^2);
-SS_total_prey_rk4 = sum((Moose - mean(Moose)).^2);
-SS_total_pred_rk4 = sum((Wolves - mean(Wolves)).^2);
+SS_total_prey_rk4 = sum((Moose(2:length(Moose)) - mean(Moose(2:length(Moose)))).^2);
+SS_total_pred_rk4 = sum((Wolves(2:length(Wolves)) - mean(Wolves(2:length(Wolves)))).^2);
 rsq_prey_rk4 = 1 - (SSresid_prey_rk4 / SS_total_prey_rk4);
 rsq_pred_rk4 = 1 - (SSresid_pred_rk4 / SS_total_pred_rk4);
 
@@ -216,12 +218,12 @@ prey_rsq_rk4 = ['Prey R^{2} = ' num2str(rsq_prey_rk4)]; % plot label
 pred_rsq_rk4 = ['Predator R^{2} = ' num2str(rsq_pred_rk4)]; % plot label
 
 % determine sum of squares of residuals b/w Euler's model and data
-yresid_prey_eul = Moose - y2(:, 1);
-yresid_pred_eul = Wolves - y2(:, 2);
+yresid_prey_eul = Moose(2:length(Moose)) - y2(1:length(Moose)-1, 1);
+yresid_pred_eul = Wolves(2:length(Wolves)) - y2(1:length(Wolves)-1, 2);
 SSresid_prey_eul = sum(yresid_prey_eul.^2);
 SSresid_pred_eul = sum(yresid_pred_eul.^2);
-SS_total_prey_eul = sum((Moose - mean(Moose)).^2);
-SS_total_pred_eul = sum((Wolves - mean(Wolves)).^2);
+SS_total_prey_eul = sum((Moose(2:length(Moose)) - mean(Moose(2:length(Moose)))).^2);
+SS_total_pred_eul = sum((Wolves(2:length(Wolves)) - mean(Wolves(2:length(Wolves)))).^2);
 rsq_prey_eul = 1 - (SSresid_prey_eul / SS_total_prey_eul);
 rsq_pred_eul = 1 - (SSresid_pred_eul / SS_total_pred_eul);
 
@@ -242,7 +244,7 @@ plot(t1, y1(:, 2));
 plot(Year, Wolves, '-.');
 ylabel('Predator Population (Wolves)');
 legend('simulated prey', 'recorded prey', 'simulated predator', 'recorded predator');
-xlim(t_span)
+xlim([1959 2020])
 text(1961, 48, prey_rsq_rk4);
 text(1961, 45.7, pred_rsq_rk4);
 hold off;
@@ -261,7 +263,7 @@ plot(t2, y2(:, 2));
 plot(Year, Wolves, '-.');
 ylabel('Predator Population (Wolves)');
 legend('simulated prey', 'recorded prey', 'simulated predator', 'recorded predator');
-xlim(t_span)
+xlim([1959 2020])
 text(1961, 237, prey_rsq_eul);
 text(1961, 223.5, pred_rsq_eul);
 hold off;
