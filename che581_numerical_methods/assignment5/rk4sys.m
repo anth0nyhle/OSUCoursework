@@ -44,21 +44,21 @@ tp(np) = tt;
 yp(np, :) = y(1, :);
 i = 1;
 
-while(1)
+while (1)
     t_end = t(np+1);
     hh = t(np+1) - t(np);
     if hh > h
         hh = h;
     end
-    while(1)
+    while (1)
         if tt + hh > t_end
             hh = t_end - tt;
         end
         k1 = dydt(tt, y(i, :), varargin{:})';
         y_mid1 = y(i, :) + k1 .* hh ./ 2;
-        k2 = dydt(tt + hh / 2, y_mid1, varargin{:})';
+        k2 = dydt(tt + (hh / 2), y_mid1, varargin{:})';
         y_mid2 = y(i, :) + k2 * hh / 2;
-        k3 = dydt(tt + hh, y_mid2, varargin{:})';
+        k3 = dydt(tt + (hh / 2), y_mid2, varargin{:})';
         y_end = y(i, :) + k3 * hh;
         k4 = dydt(tt + hh, y_end, varargin{:})';
         phi = (k1 + 2 * (k2 + k3) + k4) / 6;
@@ -77,5 +77,4 @@ while(1)
     end
 end
         
-
 end

@@ -198,7 +198,6 @@ disp('(a) See Figure 1 & 2');
 % dxdt = @(t, x, y) (a * x) - (b * x * y);
 % dydt = @(t, x, y) -(c * y) + (d * x * y);
 
-% predprey function file holds the two Lotka-Volterra eqs, predator-prey model 
 [t1, y1] = rk4sys(@predprey, t_span, y0, h, a, b, c, d); % calls rk4sys method function file
 [t2, y2] = eulsys(@predprey, t_span, y0, h, a, b, c, d); % calls eulsys method function file
 

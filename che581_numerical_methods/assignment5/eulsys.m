@@ -44,17 +44,18 @@ tp(np) = tt;
 yp(np, :) = y(1, :);
 i = 1;
 
-while(1)
+while (1)
     t_end = t(np+1);
     hh = t(np+1) - t(np);
     if hh > h
         hh = h;
     end
-    while(1)
+    while (1)
         if tt + hh > t_end
             hh = t_end - tt;
         end
-
+        yi = dydt(tt, y(i, :), varargin{:})';
+        y(i+1, :) = y(i, :) + yi .* hh;
         tt = tt + hh;
         i = i + 1;
         if tt >= t_end
