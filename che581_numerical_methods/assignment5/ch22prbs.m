@@ -3,7 +3,7 @@
 
 % CHE 581: Assignment 5
 % Textbook Problems 22.1, 22.6, 22.10, 22.11, 22.12. 22.14
-% Due: 02-27-2019
+% Due: 03-01-2019
 %% Problem 22.1
 close all; % close all figures
 clear; % clear workspace
@@ -15,8 +15,6 @@ disp('See pdf file for written work.');
 dydt = @(t, y) (y * t^2) - (1.1 * y);
 
 % (a) analytically
-y = @(t, y) y * ((t^3 / 3) - (1.1 * t));
-t_a = (0:0.5:2);
 
 
 % (b) Euler's method w/ h = 0.5, 0.25
@@ -252,20 +250,20 @@ hold off;
 %plot time-series plot comparing euler's method simulation w/ data
 figure();
 yyaxis left;
-plot(t2, y2(:, 1));
+plot(t2(1:length(Moose)-1), y2(1:length(Moose)-1, 1)); % model restricted from 1960 to 2006
 title('Time-Series Plot: Simulated Model (Euler''s Method) vs Recorded Data');
 xlabel('Year');
 ylabel('Prey Population (Moose)');
 hold on;
 plot(Year, Moose, '-.');
 yyaxis right;
-plot(t2, y2(:, 2));
+plot(t2(1:length(Wolves)+1), y2(1:length(Wolves)+1, 2)); % model restricted from 1960 to 2006
 plot(Year, Wolves, '-.');
 ylabel('Predator Population (Wolves)');
 legend('simulated prey', 'recorded prey', 'simulated predator', 'recorded predator');
-xlim([1959 2020])
-text(1961, 237, prey_rsq_eul);
-text(1961, 223.5, pred_rsq_eul);
+xlim([1959 2006])
+text(1961, 133, prey_rsq_eul);
+text(1961, 125.5, pred_rsq_eul);
 hold off;
 
 % (b)
@@ -284,7 +282,7 @@ hold off;
 
 % plot phase-plane plot comparing euler's method simulation w/ data
 figure();
-plot(y2(:, 1), y2(:, 2));
+plot(y2(1:length(Moose)-1, 1), y2(1:length(Wolves)-1, 2)); % model restricted from 1960 to 2006
 title('Phase-Plase Plot: Moose vs Wolves (Euler''s Method)');
 xlabel('Prey Population (Moose)');
 ylabel('Predator Population (Wolves)');

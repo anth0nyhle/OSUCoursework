@@ -1,9 +1,9 @@
 % Created by: Anthony H. Le
-% Last updated: 02-25-2019
+% Last updated: 02-27-2019
 
 % CHE 581: Assignment 5
 % Extra Credit Problem
-% Due: 02-27-2019
+% Due: 03-01-2019
 %% Extra Credit
 close all; % close all figures
 clear; % clear workspace
