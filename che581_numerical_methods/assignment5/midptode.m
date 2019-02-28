@@ -40,8 +40,9 @@ for i = 1:n-1
     yp_int = dydt(t(i), y(i));
     y_pred = y(i) + yp_int * (h / 2); % predictor, compute y @ midpoint
     yp_mid = dydt(t(i)+(h/2), y_pred); % use predictor y to predict slope @ midpoint
-    yp_avg = (yp_int + yp_mid) / 2; % average initial and predicted slopes
-    y(i+1) = y(i) + yp_avg * h; % corrector, compute improved y
+%     yp_avg = (yp_int + yp_mid) / 2; % average initial and predicted slopes
+%     y(i+1) = y(i) + yp_avg * h; % corrector, compute improved y
+    y(i+1) = y(i) + yp_mid * h; % corrector, compute improved y
 end
 
 figure();
