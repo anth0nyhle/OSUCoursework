@@ -18,7 +18,7 @@ y = @(t) exp((t.^3 / 3) - 1.1 .* t);
 
 figure();
 % (a) analytically
-a = (0:1);
+a = (0:0.0001:1);
 y_a = y(a);
 plot(a, y_a);
 title('22.1 IVP for t = 0 to 1, where y(0) = 1');
@@ -41,8 +41,8 @@ end
 
 % [t_b1, y_b1] = eulode(dydt, t_span, y(0), h_b1);
 
-plot(inv_b1, y_b1);
-% plot(t_b1, y_b1);
+plot(inv_b1, y_b1, '-o');
+% plot(t_b1, y_b1, '-o');
 
 % for h = 0.25
 h_b2 = 0.25;
@@ -56,8 +56,8 @@ end
 
 % [t_b2, y_b2] = eulode(dydt, t_span, y(0), h_b2);
 
-plot(inv_b2, y_b2);
-% plot(t_b2, y_b2);
+plot(inv_b2, y_b2, '-o');
+% plot(t_b2, y_b2, '-o');
 
 % (c) midpoint method w/ h = 0.5
 h_c = 0.5;
@@ -75,8 +75,8 @@ end
 
 % [t_c, y_c] = midptode(dydt, t_span, y(0), h_c);
 
-plot(inv_c, y_c);
-% plot(t_c, y_c);
+plot(inv_c, y_c, '-o');
+% plot(t_c, y_c, '-o');
 
 % (d) 4th-order RK method w/ h = 0.5
 h_d = 0.5;
@@ -106,8 +106,8 @@ end
 
 % [t_d, y_d] = rk4ode(dydt, t_span, y(0), h_d);
 
-plot(inv_d, y_d);
-% plot(t_d, y_d);
+plot(inv_d, y_d, '-o');
+% plot(t_d, y_d, '-o');
 
 legend('(a) analytical', '(b) Euler''s method, h = 0.5', '(b) Euler''s method, h = 0.25', '(c) midpoint method, h = 0.5', '(d) 4th-order RK method, h = 0.5');
 hold off;
