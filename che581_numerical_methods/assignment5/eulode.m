@@ -1,4 +1,4 @@
-function [t, y] = eulode(dydt, t_span, y0, h, varargin)
+function [t, y] = eulode(dydt, t_span, y0, h)
 % eulode: Euler ODE soler
 % [t, y] = eulode(dydt, tspan, y0, h, p1, p2,...):
 %          uses Euler's method to integrate an ODE
@@ -38,7 +38,7 @@ end
 y = y0 * ones(n, 1); % preallocate y to improve efficiency
 
 for i = 1:n-1 % implement Euler's method
-    y(i+1) = y(i) + dydt(t(i), y(i), varargin{:}) * (t(i+1) - t(i));
+    y(i+1) = y(i) + dydt(t(i), y(i)) * (t(i+1) - t(i));
 end
 
 end
