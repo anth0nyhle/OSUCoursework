@@ -18,15 +18,13 @@ y = @(t) exp((t.^3 / 3) - 1.1 .* t);
 
 figure();
 % (a) analytically
-a = (0:0.0001:1);
+a = (0:0.001:1);
 y_a = y(a);
 plot(a, y_a);
 title('22.1 IVP for t = 0 to 1, where y(0) = 1');
 xlabel('t');
 ylabel('y');
 hold on;
-
-% t_span = [0, 1];
 
 % (b) Euler's method w/ h = 0.5, 0.25
 % for h = 0.5
@@ -39,9 +37,9 @@ for i = 1:n_b1-1
    y_b1(i+1) = y_b1(i) + dydt(inv_b1(i), y_b1(i)) * h_b1; 
 end
 
-% [t_b1, y_b1] = eulode(dydt, t_span, y(0), h_b1);
-
 plot(inv_b1, y_b1, '-o');
+
+% [t_b1, y_b1] = eulode(dydt, [0, 1], y(0), h_b1);
 % plot(t_b1, y_b1, '-o');
 
 % for h = 0.25
@@ -54,9 +52,9 @@ for i = 1:n_b2-1
    y_b2(i+1) = y_b2(i) + dydt(inv_b2(i), y_b2(i)) * h_b2; 
 end
 
-% [t_b2, y_b2] = eulode(dydt, t_span, y(0), h_b2);
-
 plot(inv_b2, y_b2, '-o');
+
+% [t_b2, y_b2] = eulode(dydt, [0, 1], y(0), h_b2);
 % plot(t_b2, y_b2, '-o');
 
 % (c) midpoint method w/ h = 0.5
@@ -73,9 +71,9 @@ for i = 1:n_c-1
     y_c(i+1) = y_c(i) + yp_midc * h_c; % corrector, compute improved y
 end
 
-% [t_c, y_c] = midptode(dydt, t_span, y(0), h_c);
-
 plot(inv_c, y_c, '-o');
+
+% [t_c, y_c] = midptode(dydt, [0, 1], y(0), h_c, [], [], []);
 % plot(t_c, y_c, '-o');
 
 % (d) 4th-order RK method w/ h = 0.5
@@ -104,12 +102,12 @@ for i = 1:n_d-1
     y_d(i+1) = y_d(i) + phi(i) * h_d; % compute final y prediction
 end
 
-% [t_d, y_d] = rk4ode(dydt, t_span, y(0), h_d);
-
 plot(inv_d, y_d, '-o');
+
+% [t_d, y_d] = rk4ode(dydt, [0, 1], y(0), h_d, [], [], []);
 % plot(t_d, y_d, '-o');
 
-legend('(a) analytical', '(b) Euler''s method, h = 0.5', '(b) Euler''s method, h = 0.25', '(c) midpoint method, h = 0.5', '(d) 4th-order RK method, h = 0.5');
+legend('(a) analytically', '(b) Euler''s method, h = 0.5', '(b) Euler''s method, h = 0.25', '(c) midpoint method, h = 0.5', '(d) 4th-order RK method, h = 0.5');
 hold off;
 
 disp('-------------------------------------------------');
