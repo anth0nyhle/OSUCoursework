@@ -63,12 +63,14 @@ inv_c = (0:h_c:1);
 n_c = length(inv_c);
 y_c = y(0) * ones(n_c, 1);
 y_predc = zeros(n_c-1, 1);
+yp_midc = zeros(n_c-1, 1);
+
 
 for i = 1:n_c-1
     yp_intc = dydt(inv_c(i), y_c(i));
     y_predc(i) = y_c(i) + yp_intc * (h_c / 2); % predictor, compute y @ midpoint
-    yp_midc = dydt(inv_c(i)+(h_c/2), y_predc(i)); % use predictor y to predict slope @ midpoint
-    y_c(i+1) = y_c(i) + yp_midc * h_c; % corrector, compute improved y
+    yp_midc(i) = dydt(inv_c(i)+(h_c/2), y_predc(i)); % use predictor y to predict slope @ midpoint
+    y_c(i+1) = y_c(i) + yp_midc(i) * h_c; % corrector, compute improved y
 end
 
 plot(inv_c, y_c, '-o');
