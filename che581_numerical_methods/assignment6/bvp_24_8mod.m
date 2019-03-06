@@ -5,7 +5,7 @@
 %               D * d^2c/dx^2 - alpha * c = 0
 %
 % this kind of problem occurs in all kinds of science and engineering
-% applications.  exammples include contiminant transport in soils,
+% applications.  examples include contiminant transport in soils,
 % atmosphere-soil gas transport, chromatography, etc.  often both
 % a "convection" term would also be included in the
 % transport equation, depending upon the application.  for now, we will
@@ -53,7 +53,7 @@
 %            M . x  =   b
 %
 % where M is a tri-diagonal matrix (n-2 by n-2), x is the vector of n-2
-% unknowns, and b is the vecotor of sources (the right-hand side).
+% unknowns, and b is the vector of sources (the right-hand side).
 %
 % except for the first and last rows of this matrix, every row looks
 % like
@@ -89,11 +89,9 @@
 %
 clc;
 clf;
-D = 1.5e-6; % D in m^2/day -- value typical for dissolved ionic species in water (1x10^-9 m^2/s)
-alpha = 5e-6 % alpha in (days)^-1
-L = 1; % domain length in meters
-c0 = 0.1; % the left-hand side boundary condition
-cn = 0.0; % the right-hand side boundary condition
+L = 20; % domain length in meters
+T0 = 40; % deg C, the left-hand side boundary condition
+Tn = 200; % deg C, the right-hand side boundary condition
 np = 10  % number of partitions
 n = np + 1 % number of nodes
 nm = n - 2 % number of *internal* nodes
@@ -108,8 +106,8 @@ M(1, 2) = -1; % the first row is special
 M(nm, nm-1) = -1; % so is the last row
 M(nm, nm) = (2 + alpha * dx2 / D); % so is the last row
 %
-b(1) = c0; % first value in the b vector
-b(nm) = cn; % last value in the b vector; the rest are zeros
+b(1) = T0; % first value in the b vector
+b(nm) = Tn; % last value in the b vector; the rest are zeros
 %
 % now make a nice loop to fill in the rest...
 for k=2:1:nm-1 % loop over the rows of the array (nm x nm)
@@ -131,8 +129,8 @@ c = M \ b % solve the system of equations using MATLAB's built-in solver
 % with the solution values.
 %
 c2 = zeros(n, 1); % initialize the vector
-c2(1) = c0; % set the left boundary value
-c2(n) = cn; % set the right boundary value
+c2(1) = T0; % set the left boundary value
+c2(n) = Tn; % set the right boundary value
 for k = 2:1:n-1 % loop over the rest of the values in the vector
     c2(k) = c(k-1); % fill the vector with the correct value from c
 end
