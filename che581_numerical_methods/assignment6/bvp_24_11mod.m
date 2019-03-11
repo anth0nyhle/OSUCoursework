@@ -89,33 +89,33 @@
 %
 clc;
 clf;
-D = 1.5e-6; % D in m^2/day -- value typical for dissolved ionic species in water (1x10^-9 m^2/s)
-alpha = 5e-6 % alpha in (days)^-1
-L = 1; % domain length in meters
-c0 = 0.1; % the left-hand side boundary condition
-cn = 0.0; % the right-hand side boundary condition
-np = 10  % number of partitions
+D = 1.5e-6; % cm^2/s
+k = 5.0e-6; % s^-1
+L = 4; % domain length in cm
+A0 = 0.1; % M, the left-hand side boundary condition
+An = 0.0; % M, the right-hand side boundary condition
+np = 4  % number of partitions
 n = np + 1 % number of nodes
 nm = n - 2 % number of *internal* nodes
-dx = L / np % size of partitions, in m
+dx = L / np % size of partitions, in cm
 dx2 = dx * dx; % square the size once so you don't have to do it again!
 M = zeros(nm, nm); % initialize the array
 b = zeros(nm, 1); % initialize the b column vector; remember, this vector is an nm x 1 array in MATLAB
 %
-M(1, 1) = (2 + alpha * dx2 / D); % the first row is special
+M(1, 1) = (2 + k * dx2 / D); % the first row is special
 M(1, 2) = -1; % the first row is special
 %
 M(nm, nm-1) = -1; % so is the last row
-M(nm, nm) = (2 + alpha * dx2 / D); % so is the last row
+M(nm, nm) = (2 + k * dx2 / D); % so is the last row
 %
-b(1) = c0; % first value in the b vector
-b(nm) = cn; % last value in the b vector; the rest are zeros
+b(1) = A0; % first value in the b vector
+b(nm) = An; % last value in the b vector; the rest are zeros
 %
 % now make a nice loop to fill in the rest...
-for k=2:1:nm-1 % loop over the rows of the array (nm x nm)
-    M(k, k-1) = -1; % set the subdiagonal value
-    M(k, k) = (2 + alpha * dx2 / D); % set the diagonal value 
-    M(k, k+1) = -1; % set the subdiagonal value
+for j=2:1:nm-1 % loop over the rows of the array (nm x nm)
+    M(j, j-1) = -1; % set the subdiagonal value
+    M(j, j) = (2 + k * dx2 / D); % set the diagonal value 
+    M(j, j+1) = -1; % set the subdiagonal value
 end
 disp(M)
 disp(b)
@@ -131,10 +131,10 @@ c = M \ b % solve the system of equations using MATLAB's built-in solver
 % with the solution values.
 %
 c2 = zeros(n, 1); % initialize the vector
-c2(1) = c0; % set the left boundary value
-c2(n) = cn; % set the right boundary value
-for k = 2:1:n-1 % loop over the rest of the values in the vector
-    c2(k) = c(k-1); % fill the vector with the correct value from c
+c2(1) = A0; % set the left boundary value
+c2(n) = An; % set the right boundary value
+for j = 2:1:n-1 % loop over the rest of the values in the vector
+    c2(j) = c(j-1); % fill the vector with the correct value from c
 end
 %
 %display(c2)

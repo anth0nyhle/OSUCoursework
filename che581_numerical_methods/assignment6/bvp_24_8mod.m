@@ -89,10 +89,11 @@
 %
 clc;
 clf;
-L = 20; % domain length in meters
+f_x = 25; % deg C/m^2, heat source
+L = 10; % domain length in meters
 T0 = 40; % deg C, the left-hand side boundary condition
 Tn = 200; % deg C, the right-hand side boundary condition
-np = 10  % number of partitions
+np = 5  % number of partitions
 n = np + 1 % number of nodes
 nm = n - 2 % number of *internal* nodes
 dx = L / np % size of partitions, in m
@@ -100,19 +101,20 @@ dx2 = dx * dx; % square the size once so you don't have to do it again!
 M = zeros(nm, nm); % initialize the array
 b = zeros(nm, 1); % initialize the b column vector; remember, this vector is an nm x 1 array in MATLAB
 %
-M(1, 1) = (2 + alpha * dx2 / D); % the first row is special
+M(1, 1) = dx; % the first row is special
 M(1, 2) = -1; % the first row is special
 %
 M(nm, nm-1) = -1; % so is the last row
-M(nm, nm) = (2 + alpha * dx2 / D); % so is the last row
+M(nm, nm) = dx; % so is the last row
 %
-b(1) = T0; % first value in the b vector
-b(nm) = Tn; % last value in the b vector; the rest are zeros
+b(1) = f_x * dx2 + T0; % first value in the b vector
+b(nm) = f_x * dx2 + Tn; % last value in the b vector; the rest are zeros
+b(2:nm-1) = f_x * dx2;
 %
 % now make a nice loop to fill in the rest...
 for k=2:1:nm-1 % loop over the rows of the array (nm x nm)
     M(k, k-1) = -1; % set the subdiagonal value
-    M(k, k) = (2 + alpha * dx2 / D); % set the diagonal value 
+    M(k, k) = dx; % set the diagonal value 
     M(k, k+1) = -1; % set the subdiagonal value
 end
 disp(M)

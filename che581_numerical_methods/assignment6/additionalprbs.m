@@ -1,5 +1,5 @@
 % Created by: Anthony H. Le
-% Last updated: 03-05-2019
+% Last updated: 03-11-2019
 
 % CHE 581: Assignment 6
 % Textbook Problems 24.8, 24.11, Additional Problems 1, 2
