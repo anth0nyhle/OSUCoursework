@@ -1,5 +1,5 @@
 % Created by: Anthony H. Le
-% Last updated: 03-11-2019
+% Last updated: 03-12-2019
 
 % CHE 581: Assignment 6
 % Textbook Problems 24.8, 24.11, Additional Problems 1, 2
@@ -10,8 +10,7 @@ clear; % clear workspace
 clc; % clear command window
 
 disp('Additional Problem 1');
-
-
+disp('See pdf file for written work.');
 
 disp('-------------------------------------------------');
 
