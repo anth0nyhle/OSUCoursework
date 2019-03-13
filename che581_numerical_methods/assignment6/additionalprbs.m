@@ -21,6 +21,11 @@ clc;
 
 disp('Additional Problem 2');
 
+disp('(a) See Figure 1');
+xpde_addprb_2amod
 
+%%
+disp('(b) & (c) See Figure 2');
+xpde_addprb_2bcmod
 
 disp('-------------------------------------------------');

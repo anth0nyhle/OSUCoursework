@@ -155,7 +155,7 @@ c2 = zeros(nm, 1); % initialize this array for plotting.  we will use more than 
                    % MATLAB will just resize the array for us
 c(:, 1) = f; % put the initial condition in our solution array
 %
-% disp('computations going....');
+disp('computations going....');
 for j = 2:1:nt
 %    display(j);
     c(:, j) = M * c(:, j-1) + b(:); % this is terribly inefficient... M is mostly zeros!
@@ -169,44 +169,24 @@ for k = 1:nstep:nt % the k loop will only plot out some of the time steps
     c2(:, kk) = c(:, k);
 end
 
-% disp('----> Plot of solution in Figure window');
-% disp('PRESS <ENTER> TO CONTINUE');
-% pause;
+surf(c2); % plot a time-space-concentration surface....
+disp('----> Plot of solution in Figure window');
+disp('PRESS <ENTER> TO CONTINUE');
+pause;
 knew = kk;
 bb = zeros(nm);
-BB = zeros(nm, knew);
 for j = 1:knew
     bb = c2(:, j);
-    BB(:, j) = bb;
     plot(x, bb);
-    xlabel('Length (m)');
-    ylabel('Concentration (%)');
     set(gca, 'ylim', [0 1]); % this sets the bounds of the y axis...
     fig(j) = getframe;
 end
 
-figure();
-surf(c2); % plot a time-space-concentration surface....
-xlabel('Time ()');
-ylabel('Length (m)');
-zlabel('Concentration (%)');
-xlim([0 51]);
-hold off;
-
-% disp(' ');
-% disp('if you would like to see the results as a movie, you can adjust the code...');
-% disp('instructions are given in the M-file.');
+disp(' ');
+disp('if you would like to see the results as a movie, you can adjust the code...');
+disp('instructions are given in the M-file.');
 %
 %    movie(fig,10)                       % if you want to "play" the
 %    simulation as a movie, uncomment this line... It will run it 10
 %    times...
 % 
-%%
-Q = trapz(x', BB, 1);
-
-figure();
-plot(Q);
-xlabel('Time ()');
-ylabel('Total System Mass');
-xlim([0 51])
-hold off;
