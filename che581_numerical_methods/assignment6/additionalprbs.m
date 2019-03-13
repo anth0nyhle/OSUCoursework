@@ -14,18 +14,24 @@ disp('See pdf file for written work.');
 
 disp('-------------------------------------------------');
 
-%% Additional Problem 2
+%% Additional Problem 2 (a)
 close all;
 clear;
 clc;
 
-disp('Additional Problem 2');
+disp('Additional Problem 2 (a)');
 
-disp('(a) See Figure 1');
+disp('See Figure 1');
 xpde_addprb_2amod
 
-%%
-disp('(b) & (c) See Figure 2');
+%% Additional Problem 2 (b) & (c)
+close all;
+clear;
+clc;
+
+disp('Additional Problem 2 (b) & (c)');
+
+disp('See Figure 2');
 xpde_addprb_2bcmod
 
 disp('-------------------------------------------------');

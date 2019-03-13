@@ -169,6 +169,8 @@ for k = 1:nstep:nt % the k loop will only plot out some of the time steps
     c2(:, kk) = c(:, k);
 end
 
+t = linspace(0, T, kk);
+
 % disp('----> Plot of solution in Figure window');
 % disp('PRESS <ENTER> TO CONTINUE');
 % pause;
@@ -185,12 +187,13 @@ for j = 1:knew
     fig(j) = getframe;
 end
 
+[tt, xx] = meshgrid(t, x);
+
 figure();
-surf(c2); % plot a time-space-concentration surface....
-xlabel('Time ()');
+surf(tt, xx, c2); % plot a time-space-concentration surface....
+xlabel('Time (day)');
 ylabel('Length (m)');
 zlabel('Concentration (%)');
-xlim([0 51]);
 hold off;
 
 % disp(' ');
@@ -202,11 +205,10 @@ hold off;
 %    times...
 % 
 %%
-Q = trapz(x', BB, 1);
+Q = sum(BB, 1);
 
 figure();
-plot(Q);
-xlabel('Time ()');
-ylabel('Total System Mass');
-xlim([0 51])
+plot(t, Q);
+xlabel('Time (day)');
+ylabel('Total System Mass Concentration (%)');
 hold off;
