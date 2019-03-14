@@ -91,9 +91,8 @@
 %
 % Here is how we can make the algrorithm.  Assume that sl = sr = 0
 %
-clear;
 D = 8.6e-5; % D in m^2/day; corresponds to 1x10^-9 m^2/s
-%k1 = 1e-1; % k1 in (days)^-1
+k1 = 1e-1; % k1 in (days)^-1
 L = 0.1; % domain length in meters
 sl = 0; % the left-hand side boundary condition
 sr = 0; % the right-hand side boundary condition
@@ -126,11 +125,11 @@ M = zeros(nm, nm); % initialize the array
 b = zeros(nm, 1); % initialize the b column vector; remember, this vector is an nm x 1 array in MATLAB
 r = D * dt / (dx2);
 %
-M(1,1) = 1 - 2 * r; % the first row is special
+M(1,1) = 1 - 2 * r - k1 * dt; % the first row is special
 M(1, 2) = 2 * r; % the first row is special
 %
 M(nm, nm-1) = 2 * r; % so is the last row
-M(nm, nm) = 1 - 2 * r; % so is the last row
+M(nm, nm) = 1 - 2 * r - k1 * dt; % so is the last row
 % 
 b(1) = -2 * r * sl * dx; % first value in the b vector
 b(nm) = 2 * r * sr * dx; % last value in the b vector; the rest are zeros
@@ -138,7 +137,7 @@ b(nm) = 2 * r * sr * dx; % last value in the b vector; the rest are zeros
 % now make a nice loop to fill in the rest...
 for k = 2:1:nm-1 % loop over the rows of the array (nm x nm)
     M(k, k-1) = r; % set the subdiagonal value
-    M(k, k) = 1-2 * r; % set the diagonal value 
+    M(k, k) = 1 - 2 * r - k1 * dt; % set the diagonal value 
     M(k, k+1) = r; % set the subdiagonal value
 end
 % set the initial condition here
@@ -155,7 +154,7 @@ c2 = zeros(nm, 1); % initialize this array for plotting.  we will use more than 
                    % MATLAB will just resize the array for us
 c(:, 1) = f; % put the initial condition in our solution array
 %
-disp('computations going....');
+% disp('computations going....');
 for j = 2:1:nt
 %    display(j);
     c(:, j) = M * c(:, j-1) + b(:); % this is terribly inefficient... M is mostly zeros!
@@ -169,24 +168,50 @@ for k = 1:nstep:nt % the k loop will only plot out some of the time steps
     c2(:, kk) = c(:, k);
 end
 
-surf(c2); % plot a time-space-concentration surface....
-disp('----> Plot of solution in Figure window');
-disp('PRESS <ENTER> TO CONTINUE');
-pause;
+t = linspace(0, T, kk);
+
+% disp('----> Plot of solution in Figure window');
+% disp('PRESS <ENTER> TO CONTINUE');
+% pause;
 knew = kk;
 bb = zeros(nm);
+BB = zeros(nm, knew);
 for j = 1:knew
     bb = c2(:, j);
+    BB(:, j) = bb;
     plot(x, bb);
+    xlabel('Length (m)');
+    ylabel('Concentration (%)');
     set(gca, 'ylim', [0 1]); % this sets the bounds of the y axis...
     fig(j) = getframe;
 end
 
-disp(' ');
-disp('if you would like to see the results as a movie, you can adjust the code...');
-disp('instructions are given in the M-file.');
+[tt, xx] = meshgrid(t, x);
+
+figure();
+surf(tt, xx, c2); % plot a time-space-concentration surface....
+xlabel('Time (day)');
+ylabel('Length (m)');
+zlabel('Concentration (%)');
+hold off;
+
+% disp(' ');
+% disp('if you would like to see the results as a movie, you can adjust the code...');
+% disp('instructions are given in the M-file.');
 %
-%    movie(fig,10)                       % if you want to "play" the
+% figure();
+% movie(fig,10)                       % if you want to "play" the
 %    simulation as a movie, uncomment this line... It will run it 10
 %    times...
 % 
+%%
+Q_bc = sum(BB, 1);
+
+figure();
+plot(t, Q_a);
+hold on;
+plot(t, Q_bc);
+xlabel('Time (day)');
+ylabel('Total System Mass Concentration (%)');
+legend('non-reactive', 'reactive', 'Location', 'southwest');
+hold off;

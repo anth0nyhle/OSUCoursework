@@ -21,17 +21,25 @@ clc;
 
 disp('Additional Problem 2 (a)');
 
-disp('See Figure 1');
 xpde_addprb_2amod
+
+disp('See Figure 1 for simulation');
+disp('See Figure 2 for time-space-concentration surface plot');
+disp('See Figure 3 for non-reactive time-total system mass plot');
+
+disp('-------------------------------------------------');
 
 %% Additional Problem 2 (b) & (c)
 close all;
-clear;
+clearvars -except Q_a;
 clc;
 
 disp('Additional Problem 2 (b) & (c)');
 
-disp('See Figure 2');
 xpde_addprb_2bcmod
+
+disp('See Figure 1 for simulation');
+disp('See Figure 2 for time-space-concentration surface plot');
+disp('See Figure 3 for non-reactive & reactive time-total system mass plots');
 
 disp('-------------------------------------------------');

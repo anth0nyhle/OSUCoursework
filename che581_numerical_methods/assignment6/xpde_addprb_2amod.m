@@ -91,7 +91,6 @@
 %
 % Here is how we can make the algrorithm.  Assume that sl = sr = 0
 %
-clear;
 D = 8.6e-5; % D in m^2/day; corresponds to 1x10^-9 m^2/s
 %k1 = 1e-1; % k1 in (days)^-1
 L = 0.1; % domain length in meters
@@ -138,7 +137,7 @@ b(nm) = 2 * r * sr * dx; % last value in the b vector; the rest are zeros
 % now make a nice loop to fill in the rest...
 for k = 2:1:nm-1 % loop over the rows of the array (nm x nm)
     M(k, k-1) = r; % set the subdiagonal value
-    M(k, k) = 1-2 * r; % set the diagonal value 
+    M(k, k) = 1 - 2 * r; % set the diagonal value 
     M(k, k+1) = r; % set the subdiagonal value
 end
 % set the initial condition here
@@ -200,15 +199,32 @@ hold off;
 % disp('if you would like to see the results as a movie, you can adjust the code...');
 % disp('instructions are given in the M-file.');
 %
-%    movie(fig,10)                       % if you want to "play" the
+% figure();
+% movie(fig,10)                       % if you want to "play" the
 %    simulation as a movie, uncomment this line... It will run it 10
 %    times...
 % 
 %%
-Q = sum(BB, 1);
+Q_a = sum(BB, 1);
 
+% Q_a = zeros(knew, 1);
+% base_w = 0.4;
+% 
+% for p = 1:knew
+%     x_a = BB(1, p);
+%     S = zeros(length(BB(:, p)), 1);
+%     for q = 1:length(BB(:, p))-1
+%         x_b = BB(q+1, p);
+%         avg_h = (x_a + x_b) / 2;
+%         s = base_w * avg_h;
+%         S(q, 1) = s;
+%         x_a = x_b;
+%     end
+%     Q_a(p, 1) = sum(S);
+% end
+        
 figure();
-plot(t, Q);
+plot(t, Q_a);
 xlabel('Time (day)');
 ylabel('Total System Mass Concentration (%)');
 hold off;
