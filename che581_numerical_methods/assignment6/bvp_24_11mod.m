@@ -5,7 +5,7 @@
 %               D * d^2c/dx^2 - alpha * c = 0
 %
 % this kind of problem occurs in all kinds of science and engineering
-% applications.  exammples include contiminant transport in soils,
+% applications.  examples include contiminant transport in soils,
 % atmosphere-soil gas transport, chromatography, etc.  often both
 % a "convection" term would also be included in the
 % transport equation, depending upon the application.  for now, we will
@@ -87,8 +87,6 @@
 % so, let's make the matrix.  here goes...
 %
 %
-clc;
-clf;
 D = 1.5e-6; % cm^2/s
 k = 5.0e-6; % s^-1
 L = 4; % domain length in cm
@@ -139,7 +137,14 @@ end
 %
 %display(c2)
 xx = linspace(0, L, n); % make n evenly-spaced node location values between 0 and L
-plot(xx, c2)
+
+figure();
+plot(xx, c2);
+hold on;
+title('24.11 Concentration Distrubution along Tube via Finite-Diff Method (\Deltax = 1 cm)');
+xlabel('Distance (cm)');
+ylabel('Concentration (M)');
+hold off;
 %
 % we wasted lots of space by filling in the array with a bunch of zeros.
 % plus we relied on MATLAB's built in array inverting capabilities, which

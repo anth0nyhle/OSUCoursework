@@ -87,8 +87,6 @@
 % so, let's make the matrix.  here goes...
 %
 %
-clc;
-clf;
 f_x = 25; % deg C/m^2, heat source
 L = 10; % domain length in meters
 T0 = 40; % deg C, the left-hand side boundary condition
@@ -139,7 +137,14 @@ end
 %
 %display(c2)
 xx = linspace(0, L, n); % make n evenly-spaced node location values between 0 and L
-plot(xx, c2)
+
+figure();
+plot(xx, c2);
+hold on;
+title('24.8 (b) Temperature Distribution along Rod via Finite-Diff Method (\Deltax = 2 m)');
+xlabel('Length (m)');
+ylabel('Temperature (\circC)');
+hold off;
 %
 % we wasted lots of space by filling in the array with a bunch of zeros.
 % plus we relied on MATLAB's built in array inverting capabilities, which

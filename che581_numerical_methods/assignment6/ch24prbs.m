@@ -1,18 +1,9 @@
 % Created by: Anthony H. Le
-% Last updated: 03-12-2019
+% Last updated: 03-13-2019
 
 % CHE 581: Assignment 6
-% Textbook Problems 24.8, 24.11
+% Textbook Problems 24.8, 24.11, Additional Problems 1, 2
 % Due: 03-13-2019
-%% Problem 24.8 (a)
-% close all; % close all figures
-% clear; % clear workspace
-% clc; % clear command window
-% 
-% disp('Problem 24.8 (a) shooting method');
-% 
-% disp('-------------------------------------------------');
-
 %% Problem 24.8 (b)
 close all; % close all figures
 clear; % clear workspace
@@ -41,6 +32,10 @@ x = Tridiag(e, f, g, r); % calls function file
 T = [T0 x Tn]; % complete x vec
 
 fprintf(' T(0) = %5.4f\n T(2) = %5.4f\n T(4) = %5.4f\n T(6) = %5.4f\n T(8) = %5.4f\n T(10) = %5.4f\n', T);
+
+disp(' ');
+
+disp('See Figure 1');
 
 disp('-------------------------------------------------');
 
@@ -72,5 +67,9 @@ x = Tridiag(e, f, g, r); % calls function file
 A = [A0 x An]; % complete x vec
 
 fprintf(' A(0) = %5.4f\n A(1) = %5.4f\n A(2) = %5.4f\n A(3) = %5.4f\n A(4) = %5.4f\n', A);
+
+disp(' ');
+
+disp('See Figure 1');
 
 disp('-------------------------------------------------');
