@@ -118,177 +118,175 @@
 %
 % Here is how we can make the algrorithm.  Assume that sl = sr = 0
 %
-clear all
-U=1.0*10^(-5)                     % velocity in m/s
-D00=1*10^(-9);  % Diffusion coefficient in m^2/s
-D0=1.
-%D0=1.
-%alpha = 1e-1;                    % alpha in (days)^-1
-L = 1.6;                          % domain length in meters
-%  space variables
-npart = 1000;                     % number of partitions
+U = 1.2 % velocity in km/hr
+D00 = 0.7; % Diffusion coefficient in km^2/hr
+D0 = 1.
+% alpha = 1e-1; % alpha in (days)^-1
+L = 200; % domain length in km
+% space variables
+npart = 1000; % number of partitions
 nplot = 6;
-n = npart+1;                      % number of nodes
-nm = n;                           % number of compute nodes
-dx = L/npart;                     % size of partitions, in m
-dx2 = dx * dx;                    % square the size once so you don't have to do it again!
+n = npart + 1; % number of nodes
+nm = n; % number of compute nodes
+dx = L / npart; % size of partitions, in km
+dx2 = dx * dx; % square the size once so you don't have to do it again!
 % time variables
-T=1000*60;                         % total time for simulation, s
-npt = 400000;					  % number of time steps to take (intervals)
-nt = npt+1;                       % total number of time points (including initial condition)
-dt = T/npt;                       % size of time steps
-th = 1/2;                         % Value for theta; 
-thc = 1-th;
-r = D0*dt/(dx2);
-r2= D00*dt/(dx2)
-w = U*dt/(2*dx)
-courant = U*dt/dx
-t=linspace(0,T,nt);                 % discretize time
-% ttt=size(t);
-% t(ttt+1)=t(ttt)+dt;
-x = linspace(0,L,nm);                % discretize space
+T = 60; % total time for simulation, hr
+npt = 600; % number of time steps to take (intervals)
+nt = npt + 1; % total number of time points (including initial condition)
+dt = T / npt; % size of time steps
+th = 1 / 2; % Value for theta; 
+thc = 1 - th;
+r = D0 * dt / (dx2);
+r2 = D00 * dt / (dx2)
+w = U * dt / (2*dx)
+courant = U * dt / dx
+t = linspace(0, T, nt); % discretize time
+% ttt = size(t);
+% t(ttt+1) = t(ttt) + dt;
+x = linspace(0, L, nm); % discretize space
 nx = length(x);
-one=ones(1,nx);
-onet=ones(1,nt);
-onep=ones(1,nx+1);
-%  Compute the effective dispersion coefficient, D(t)/D0 here.
-dd=D00*(200*(1-exp(-t./(100*60)))+1);
-%dd=1.*onet;
+one = ones(1, nx);
+onet = ones(1, nt);
+onep = ones(1, nx+1);
+% Compute the effective dispersion coefficient, D(t)/D0 here.
+dd = D00 * (200 * (1 - exp(-t ./ (100 * 60))) + 1);
+% dd = 1 .* onet;
 %
-%Set a value for the source term, s(i,j) here.  Note, I have added one extra "s" value for
-%the final time so that a proper average can be computed at the final time
-%step
-for jj=1:nt
-    for ii=1:nm
-sor=s_star();
-sor=sor*dt
+% Set a value for the source term, s(i,j) here.  Note, I have added one extra "s" value for
+% the final time so that a proper average can be computed at the final time
+% step
+for jj = 1:nt
+    for ii = 1:nm
+sor = s_star();
+sor = sor * dt
     end
 end
 %
 % Set up the initial condition here.  I am just using a random Gaussian
 % right now...
-c=zeros(nm,nt);                     % initialize the solution array
-alpha1 = 1.1*ones;
-alpha2 = 1.1*ones;
-beta1 = 0.125*ones;
-beta2 = 0.325*ones;
+c = zeros(nm, nt); % initialize the solution array
+alpha1 = 1.1 * ones;
+alpha2 = 1.1 * ones;
+beta1 = 0.125 * ones;
+beta2 = 0.325 * ones;
 sigma1 = 0.03;
 sigma2 = 0.03;
-c(:,1) = 1/3*alpha1*exp(-(x-beta1).*(x-beta1)/(sigma1*sigma1))+2/3*alpha2*exp(-(x-beta2).*(x-beta2)/(sigma2*sigma2));    % compute the initial condition, c(i,1)
-m1(:,1)=c(:,1).* x(:);
-m2(:,1)=(c(:,1).*(x(:).* x(:))-2*(x(:).* m1(:,1))+m1(:,1).*m1(:,1));
+c(:, 1) = 1 / 3 * alpha1 * exp(-(x - beta1) .* (x - beta1) / (sigma1 * sigma1)) + 2 / 3 * alpha2 * exp(-(x - beta2) .* (x - beta2) / (sigma2 * sigma2)); % compute the initial condition, c(i,1)
+m1(:, 1) = c(:, 1) .* x(:);
+m2(:, 1) = (c(:, 1) .* (x(:) .* x(:)) - 2 * (x(:) .* m1(:, 1)) + m1(:, 1) .* m1(:, 1));
 %
 %
-%  Loop over time here
-%  At each time, we need to (1) compute the new M array
-%  (2) compute the new b-vector and (3) invert the solution...
+% Loop over time here
+% At each time, we need to (1) compute the new M array
+% (2) compute the new b-vector and (3) invert the solution...
 %
 disp('computations going....')
 
-kskip0 = npt/10;
-kskip=kskip0;
-for j=2:1:nt
+kskip0 = npt / 10;
+kskip = kskip0;
+for j = 2:1:nt
   if j == kskip
-      T=['time =',num2str(j),' steps out of ',num2str(nt)];
+      T=['time =', num2str(j), ' steps out of ', num2str(nt)];
       disp(T);
-      kskip = kskip+kskip0;
+      kskip = kskip + kskip0;
   end
-M = zeros(nm,nm);                   % initialize the array
-b = zeros(nm,1);                    % initialize the b column vector; remember, this vector is an nm x 1 array in MATLAB
+M = zeros(nm, nm); % initialize the array
+b = zeros(nm, 1); % initialize the b column vector; remember, this vector is an nm x 1 array in MATLAB
 
 %
-M(1,1) = 1+2*r*th*dd(j);                     % the first row is special
-bbb(1) = M(1,1);
-M(1,2) = -2*th*r*dd(j);                       % the first row is special
-ccc(1)=M(1,2);
+M(1, 1) = 1 + 2 * r * th * dd(j); % the first row is special
+bbb(1) = M(1, 1);
+M(1, 2) = -2 * th * r * dd(j); % the first row is special
+ccc(1) = M(1, 2);
 %
-M(nm,nm-1) = -2*th*r*dd(j);                   % so is the last row
-aaa(nm-1)=M(nm,nm-1);
-M(nm,nm) = 1+2*r*th*dd(j);                   % so is the last row
-bbb(nm)=M(nm,nm);
+M(nm, nm-1) = -2 * th * r * dd(j); % so is the last row
+aaa(nm-1) = M(nm, nm-1);
+M(nm, nm) = 1 + 2 * r * th * dd(j); % so is the last row
+bbb(nm) = M(nm, nm);
 % 
 % now make a nice loop to fill in the rest...
-for k=2:1:nm-1                      % loop over the rows of the array (nm x nm)
-    M(k,k-1) = -th*(r*dd(j)+w);     % set the subdiagonal value
-    aaa(k-1)=M(k,k-1);
-    M(k,k) = (1+2*r*th*dd(j));                 % set the diagonal value 
-    bbb(k)=M(k,k);
-    M(k,k+1) = -th*(r*dd(j)-w);                   % set the subdiagonal value
-    ccc(k)=M(k,k+1);
+for k = 2:1:nm-1 % loop over the rows of the array (nm x nm)
+    M(k, k-1) = -th * (r * dd(j) + w); % set the subdiagonal value
+    aaa(k-1) = M(k, k-1);
+    M(k, k) = (1 + 2 * r * th * dd(j)); % set the diagonal value 
+    bbb(k) = M(k, k);
+    M(k, k+1) = -th * (r * dd(j) - w); % set the subdiagonal value
+    ccc(k) = M(k, k+1);
 end
 %
 %
-  b(1) =thc*(r*dd(j-1)+w)*c(2,j-1)+(1-2*r*thc*dd(j))*c(1,j-1)+thc*(r*dd(j-1)-w)*c(2,j-1)-(th*sor(1,j)+thc*sor(1,j-1))*dt;   % first value in the b vector.  recall c(0,j)=c(2,j)
-  b(nm)=thc*(r*dd(j-1)+w)*c(nm-1,j-1)+(1-2*r*thc*dd(j))*c(nm,j-1)+thc*(r*dd(j-1)-w)*c(nm-1,j-1)-(th*sor(nm,j)+thc*sor(nm,j-1))*dt; % last value in the b vector.  recall c(nm+1,j)=c(nm-1,j)
+  b(1) = thc * (r * dd(j-1) + w) * c(2, j-1) + (1 - 2 * r * thc * dd(j)) * c(1, j-1) + thc * (r * dd(j-1) - w) * c(2, j-1) - (th * sor(1, j) + thc * sor(1, j-1)) * dt; % first value in the b vector.  recall c(0,j)=c(2,j)
+  b(nm) = thc * (r * dd(j-1) + w) * c(nm-1, j-1) + (1 - 2 * r * thc * dd(j)) * c(nm, j-1) + thc * (r * dd(j-1) - w) * c(nm-1, j-1) - (th * sor(nm, j) + thc * sor(nm, j-1)) * dt; % last value in the b vector.  recall c(nm+1,j)=c(nm-1,j)
   for ii = 2:1:nm-1
-      b(ii) = thc*(r*dd(j-1)+w)*c(ii-1,j-1)+(1-2*r*thc*dd(j))*c(ii,j-1)+thc*(r*dd(j-1)-w)*c(ii+1,j-1)-(th*sor(ii,j)+thc*sor(ii,j-1))*dt;       % compute the rest of the b vector
+      b(ii) = thc * (r * dd(j-1) + w) * c(ii-1, j-1) + (1 - 2 * r * thc * dd(j)) * c(ii, j-1) + thc * (r * dd(j-1) - w) * c(ii+1, j-1) - (th * sor(ii, j) + thc * sor(ii, j-1)) * dt; % compute the rest of the b vector
   end
-  %display(b);
-  time = j*dt;
-  %c(:,j) = M\b;        % solve
-  c(:,j) = tridisolve(aaa,bbb,ccc,b);  % solve
-  c3(j,1) = time;
-  c3(j,2) = c(nplot,j);
-%   mass0=c(:,j);
-%   mass(j)=sum(mass0);
-    m1(:,j)=c(:,j).* x(:);
+  % display(b);
+  time = j * dt;
+  % c(:, j) = M \ b; % solve
+  c(:, j) = tridisolve(aaa, bbb, ccc, b); % solve
+  c3(j, 1) = time;
+  c3(j, 2) = c(nplot, j);
+%   mass0 = c(:, j);
+%   mass(j) = sum(mass0);
+    m1(:, j) = c(:, j) .* x(:);
 end
-mass0=dx*sum(c);            % this has been validated as correct
-mass1=dx*sum(m1)./mass0;    % this has been valideated as correct
-for jj=1:nt
-    mm=mass1(jj);
-for ii=1:nx
-   mave(ii,jj)=mm*one(ii);
-   m2(ii,jj)=c(ii,jj)*(x(ii)-mave(ii,jj))*(x(ii)-mave(ii,jj));
+mass0 = dx * sum(c); % this has been validated as correct
+mass1 = dx * sum(m1) ./ mass0; % this has been valideated as correct
+for jj = 1:nt
+    mm = mass1(jj);
+for ii = 1:nx
+   mave(ii, jj) = mm * one(ii);
+   m2(ii, jj) = c(ii, jj) * (x(ii) - mave(ii, jj)) * (x(ii) - mave(ii, jj));
 end
 end
-mass2=dx*sum(m2)./mass0;        % this has been valideated as correct
-vm1=diff(mass1)/dt;             % this has been validated as correct
-diffest =1/2.*diff(mass2)/(dt); %this has been validated as correct
-diffest(nt) = diffest(nt-1);    %this just makes the dimenstions the same as time...
+mass2 = dx * sum(m2) ./ mass0; % this has been valideated as correct
+vm1 = diff(mass1) / dt; % this has been validated as correct
+diffest = 1 / 2 .* diff(mass2) / (dt); %this has been validated as correct
+diffest(nt) = diffest(nt-1); %this just makes the dimenstions the same as time...
 plot(mass0);
 pause
 plot(vm1);
 pause
 plot(diffest);
 
-% plot(c3(:,1),c3(:,2))
-% xlabel('Time (days)','FontSize',18)
-% ylabel('c','Fontsize',18)
-% text(20,.9,'Breakthrough curve at x=150 m','FontSize',18)
-% set(gca,'ylim',[0 1])
-% set(gca,'xlim',[0 1.6])
+% plot(c3(:, 1), c3(:, 2))
+% xlabel('Time (days)', 'FontSize', 18)
+% ylabel('c', 'Fontsize', 18)
+% text(20, .9, 'Breakthrough curve at x = 150 m', 'FontSize', 18)
+% set(gca, 'ylim', [0 1])
+% set(gca, 'xlim', [0 1.6])
 %
- ntstep = 50;
- nxstep = 1;
- % only plot out some of the space- time steps; set the values here
-  k=1;
- for kk = 1:ntstep:nt
-     j=1;
-     for jj =1:nxstep:nm
-     c2(j,k)=c(jj,kk);
-     j=j+1;
-     end
-     k=k+1;
- end
-% % %plot the solution
-%   surf(c2,'EdgeColor','none')
-%   camlight left; lighting phong
+ntstep = 50;
+nxstep = 1;
+% only plot out some of the space- time steps; set the values here
+k = 1;
+for kk = 1:ntstep:nt
+    j = 1;
+    for jj = 1:nxstep:nm
+        c2(j, k) = c(jj, kk);
+        j = j + 1;
+    end
+    k = k + 1;
+end
+% plot the solution
+% surf(c2,'EdgeColor','none')
+% camlight left; lighting phong
 %   
-%   pause
-% % 
-%   bb=zeros(nm);
-%   for j=1:nt
-%       bb=c(:,j);
-%       plot(x,bb);
-%       %set(gca,'ylim',[-1 1])              % this sets the bounds of the y axis...
-%       set(gca,'xlim',[0 1.6]) 
-%       fig(j)=getframe;
-%   end
+% pause
+
+% bb=zeros(nm);
+% for j=1:nt
+%     bb=c(:,j);
+%     plot(x,bb);
+%     % set(gca,'ylim',[-1 1]) % this sets the bounds of the y axis...
+%     set(gca,'xlim',[0 1.6]) 
+%     fig(j)=getframe;
+% end
 hold on;
-plot(c(:,1));
-plot(c(:,20000));
-plot(c(:,40000));
-plot(c(:,100000));
-plot(c(:,200000));
-plot(c(:,400000));
+plot(c(:, 1));
+plot(c(:, 20000));
+plot(c(:, 40000));
+plot(c(:, 100000));
+plot(c(:, 200000));
+plot(c(:, 400000));
