@@ -1,5 +1,5 @@
 % Created by: Anthony H. Le
-% Last updated: 03-13-2019
+% Last updated: 03-15-2019
 
 % CHE 581: Assignment 7 Extra Credit
 % Due: 03-15-2019
@@ -20,7 +20,7 @@ clc;
 
 disp('Part 3');
 
-imp_cde_part3
+impde_part3
 
 disp('-------------------------------------------------');
 
@@ -31,7 +31,7 @@ clc;
 
 disp('Part 4');
 
-imp_cde_part4
+impde_part4
 
 disp('-------------------------------------------------');
 
