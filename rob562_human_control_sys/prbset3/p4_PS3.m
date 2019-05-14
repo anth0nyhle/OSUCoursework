@@ -52,7 +52,7 @@ close all;
 L = linspace(2, 6);
 T_max = 7;
 L_o = 4; 
-alpha = 0.5;
+alpha = 1;
 
 K_s = 3;
 xp_max_d = 0.5.*L_o;
@@ -79,5 +79,6 @@ plot(L,T);
 title('alpha = 0.5');
 xlabel('length');
 ylabel('force');
-hold on
+grid on;
+hold on;
 plot(L,fx);
