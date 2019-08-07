@@ -1,5 +1,5 @@
 function [t, y] = rk4ode(dydt, t_span, y0, h, plot_title, plot_xlabel, plot_ylabel)
-% heunode: Runge-Kutta ODE soler
+% heunode: Runge-Kutta ODE solver
 % [t, y] = rk4ode(dydt, tspan, y0, h, p1, p2,...):
 %          uses 4th-order Runge-Kutta method to integrate an ODE
 % input:
