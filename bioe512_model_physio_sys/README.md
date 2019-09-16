@@ -1,4 +1,4 @@
-# BIOE 599-3: Physiology for Engineers
+# BIOE 514: Modeling of Physiological Systems
 
 Instructors: Profs. Adam Higgins, Jim Sweeney, and Mike Pavol
 
