@@ -1,4 +1,4 @@
-# BIOE 514: Modeling of Physiological Systems
+# BIOE 512: Modeling of Physiological Systems
 
 Instructors: Profs. Adam Higgins, Jim Sweeney, and Mike Pavol
 
