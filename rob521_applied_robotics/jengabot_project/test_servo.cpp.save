@@ -1,0 +1,216 @@
+#include "ServoHandler.h"
+
+using namespace std;
+
+ServoHandler::ServoHandler() {
+
+   //constructor... initialize variables here
+   //index = 0;
+   dxl_comm_result = 0;
+   dxl_addparam_result = false;
+   dxl_getdata_result = false;
+
+   dxl_error = 0;
+
+   for (int i = 0; i < DOF; i++) {
+      dxl_id.push_back(i + 6);
+      dxl_present_positions.push_back(0);
+      param_goal_positions.push_back(0);
+      dxl_moving_speeds.push_back(0);
+   }
+
+   //1024 cnts total in joint mode
+   //2047 cnts total in wheel mode
+   //0-1023 CCW
+   //1024-2047 CW
+   //1cnt = 0.29deg = 0.00511326929293rad
+   cnts_per_radian = 0;
+
+}
+
+bool ServoHandler::Connect() {
+   //connect to devices here
+   //return true if successful... false otherwise
+   //also do any configuration stuff here
+
+   //initialize PortHandler instance
+   //portHandler = dynamixel::PortHandler::getPortHandler(DEVICENAME);
+   dynamixel::PortHandler *portHandler = dynamixel::PortHandler::getPortHandler(DEVICENAME);
+
+   //initialize PacketHandler instance
+   //packetHandler = dynamixel::PacketHandler::getPacketHandler(PROTOCOL_VERSION);
+   dynamixel::PacketHandler *packetHandler = dynamixel::PacketHandler::getPacketHandler(PROTOCOL_VERSION);
+
+   //initialize GroupBulkRead instance
+   //groupBulkRead = dynamixel::GroupBulkRead(portHandler, packetHandler);
+   dynamixel::GroupBulkRead groupBulkRead(portHandler, packetHandler);
+
+   int dxl_comm_result = COMM_TX_FAIL;
+   int dxl_error = 0;
+
+   bool dxl_addparam_result = false;
+
+   //open port
+   if (portHandler->openPort())
+   {
+      printf("Succeeded to open the port!\n");
+   }
+   else
+   {
+      printf("Failed to open the port!\n");
+      printf("Press any keey to terminate...\n");
+      return 0;
+   }
+
+   //set port baudrate
+   if (portHandler->setBaudRate(BAUDRATE))
+   {
+      printf("Succeeded to change the baudrate!\n");
+   }
+   else
+   {
+      printf("Failed to change the baudrate!\n");
+      printf("Press any key to terminate...\n");
+      return 0;
+   }
+
+   //enable all torque for all servos
+   for (int i = 0; i < DOF; i++) {
+      dxl_comm_result = packetHandler -> write1ByteTxRx(portHandler, dxl_id[i], ADDR_AX_TORQUE_ENABLE, TORQUE_ENABLE);
+      if (dxl_comm_result != COMM_SUCCESS)
+      {
+         packetHandler -> printTxRxResult(dxl_comm_result);
+      }
+      else if (dxl_error != 0)
+      {
+         packetHandler -> printRxPacketError(dxl_error);
+      }
+      else
+      {
+         printf("Dynamixel#%d has been successfully connected \n", dxl_id[i]);
+      }
+   }
+
+   //add parameter storage for servo present moving value
+   for (int i = 0; i < DOF; i++) {
+   dxl_addparam_result = groupBulkRead.addParam(dxl_id[i], ADDR_AX_PRESENT_POSITION, LEN_AX_PRESENT_POSITION);
+      if (dxl_addparam_result != true)
+      {
+         fprintf(stderr, "[ID:%03d] groupBulkRead addparam failed", dxl_id[i]);
+         return 0;
+      }
+   }
+}
+
+int ServoHandler::GetThetas(vector<float>* thetas)
+{
+   dynamixel::PortHandler *portHandler = dynamixel::PortHandler::getPortHandler(DEVICENAME);
+
+   dynamixel::PacketHandler * packetHandler = dynamixel::PacketHandler::getPacketHandler(PROTOCOL_VERSION);
+
+   dynamixel::GroupBulkRead groupBulkRead(portHandler, packetHandler);
+
+   int dxl_comm_result = COMM_TX_FAIL;
+   bool dxl_getdata_result = false;
+
+   //bulk read present position
+   dxl_comm_result = groupBulkRead.txRxPacket();
+   if (dxl_comm_result != COMM_SUCCESS) packetHandler -> printTxRxResult(dxl_comm_result);
+
+   for (int i = 0; i < DOF; i++) {
+      dxl_getdata_result = groupBulkRead.isAvailable(dxl_id[i], ADDR_AX_PRESENT_POSITION, LEN_AX_PRESENT_POSITION);
+      if (dxl_getdata_result != true)
+      {
+         fprintf(stderr, "[ID:%03d] groupBulkRead getdata failed", dxl_id[i]);
+         return 0;
+      }
+   }
+
+   //read and store present position in vector
+   for (int i = 0; i < DOF; i++) {
+      dxl_present_positions[i] = groupBulkRead.getData(dxl_id[i], ADDR_AX_PRESENT_POSITION, LEN_AX_PRESENT_POSITION);
+   }
+
+   //dxl_present_position[0] = groupBulkRead.getData(dxl_id[0], ADDR_AX_PRESENT_POSITION, LEN_AX_PRESENT_POSITION);
+   //dxl_present_position[1] = groupBulkRead.getData(dxl_id[1], ADDR_AX_PRESENT_POSITION, LEN_AX_PRESENT_POSITION);
+   //dxl_present_position[2] = groupBulkRead.getData(dxl_id[2], ADDR_AX_PRESENT_POSITION, LEN_AX_PRESENT_POSITION);
+   //dxl_present_position[3] = groupBulkRead.getData(dxl_id[3], ADDR_AX_PRESENT_POSITION, LEN_AX_PRESENT_POSITION);
+   //dxl_present_position[4] = groupBulkRead.getData(dxl_id[4], ADDR_AX_PRESENT_POSITION, LEN_AX_PRESENT_POSITION);
+   //dxl_present_position[5] = groupBulkRead.getData(dxl_id[5], ADDR_AX_PRESENT_POSITION, LEN_AX_PRESENT_POSITION);
+
+   //1rad = 195.5695825cnts
+   float cnts_per_radian = 1/0.00511326929293;
+
+   //for each servo
+   (*thetas)[0] = dxl_present_positions[0] * (1/cnts_per_radian);
+
+   //thetas[0] = dxl1_present_position * (1/cnts_per_radian);
+
+   return 0;//if good... if there was a read error return -1;
+}
+
+int ServoHandler::Update(vector<float> theta_dot)
+{
+   dynamixel::PortHandler *portHandler = dynamixel::PortHandler::getPortHandler(DEVICENAME);
+
+   dynamixel::PacketHandler *packetHandler = dynamixel::PacketHandler::getPacketHandler(PROTOCOL_VERSION);
+
+   //sync write
+   //groupSyncWrite = dynamixel::GroupSyncWrite(portHandler, packetHandler, ADDR_AX_GOAL_POSITION, LEN_AX_GOAL_POSITION);
+   dynamixel::GroupSyncWrite groupSyncWrite(portHandler, packetHandler, ADDR_AX_GOAL_POSITION, LEN_AX_GOAL_POSITION);
+
+   int dxl_comm_result = COMM_TX_FAIL;
+   bool dxl_addparam_result = false;
+
+   //target_cnts_per_sec = theta_dot[0]*cnts_per_radian;
+
+   //store goal positions in vector
+   for (int i = 0; i < DOF; i++) {
+      dxl_goal_positions[i] = theta_dot[i] * cnts_per_radian;
+   }
+
+   //allocate goal positions values into byte array
+   //for (int i = 0; i < DOF; i++) {
+   //   param_goal_positions[i] = dxl_goal_positions[i];
+   //}
+
+   //add each servo goal position value to the Syncwrite storage
+   for (int i = 0; i < DOF; i++) {
+      dxl_addparam_result = groupSyncWrite.addParam(dxl_id[i], param_goal_positions[i]);
+      if (dxl_addparam_result != true)
+      {
+         fprintf(stderr, "[ID:%03d] groupSyncWrite addparam failed", dxl_id[i]);
+         return 0;
+      }
+   }
+
+   //Syncwrite goal position
+   dxl_comm_result = groupSyncWrite.txPacket();
+   if (dxl_comm_result != COMM_SUCCESS) packetHandler -> printTxRxResult(dxl_comm_result);
+
+   //clear syncwrite parameter storage
+   groupSyncWrite.clearParam();
+
+   return 0;//if good... if there was a write error return -1;
+}
+
+int ServoHandler::HoldPosition()
+{
+   dynamixel::PortHandler *portHandler = dynamixel::PortHandler::getPortHandler(DEVICENAME);
+
+   dynamixel::PacketHandler *packetHandler = dynamixel::PacketHandler::getPacketHandler(PROTOCOL_VERSION);
+
+   //send all zeros for velocity targets
+   int dxl_comm_result = COMM_TX_FAIL;
+
+   for (int i = 0; i < DOF; i++) {
+      dxl_moving_speeds[i] = 0;
+   }
+
+   for (int i = 0; i < DOF; i++) {
+      dxl_comm_result = packetHandler -> write2ByteTxRx(portHandler, dxl_id[i], ADDR_AX_MOVING_SPEED, dxl_moving_speeds[i]);
+   }
+}
+
+
+

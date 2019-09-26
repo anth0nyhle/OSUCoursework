@@ -1,0 +1,1 @@
+g++ -std=c++0x main.cpp -I/home/pi/applied_c/dynamixel/include CommHandler.cpp tcp_client.cpp ArmHandler.cpp RobotArm.cpp TrajectoryGenerator.cpp Controller.cpp SimServoHandler.cpp MVN_Sampler.cpp EndEffector.cpp Estimator.cpp RBFestimator.cpp ManipulatorDynamics.cpp LTV_LQR.cpp -ojenga_arm -lpthread -ldxl_sbc_cpp -lrt

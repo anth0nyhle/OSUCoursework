@@ -1,0 +1,2 @@
+g++ -std=c++0x main.cpp CommHandler.cpp tcp_client.cpp ArmHandler.cpp RobotArm.cpp TrajectoryGenerator.cpp Controller.cpp  SimServoHandler.cpp -ojenga_arm -lpthread
+
