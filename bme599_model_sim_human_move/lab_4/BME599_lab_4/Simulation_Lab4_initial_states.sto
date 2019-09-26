@@ -1,0 +1,6 @@
+Simulation_Lab4						
+nRows=1						
+nColumns=6						
+endheader						
+time	block_tz	muscle_1.activation	muscle_1.fiber_length	muscle_2.activation	muscle_2.fiber_length 	
+0	0	0.5	0.1	0	0.1	      

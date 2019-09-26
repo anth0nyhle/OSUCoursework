@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ActuatorSet name="Simulation_Lab5_actuators">
+
+	<defaults>
+
+		<Force name="default">
+			<max_force> 10000.000 </max_force>
+			<min_force> -10000.000 </min_force>
+			<optimal_force> 1000.0 </optimal_force>
+			<body_A> </body_A>
+			<point_A> 0.000 0.000 0.000 </point_A>
+			<direction_A> 1.000 0.000 0.000 </direction_A>
+			<body_B> </body_B>
+			<point_B> 0.000 0.000 0.000 </point_B>
+		</Force>
+
+		<Torque name="default">
+			<max_force> 10000.000 </max_force>
+			<min_force> -10000.000 </min_force>
+			<optimal_force> 1000.0 </optimal_force>
+			<body_A> </body_A>
+			<direction_A> 1.000 0.000 0.000 </direction_A>
+			<body_B> </body_B>
+		</Torque>
+
+		<GeneralizedForce name="default">
+			<max_force> 10000.0 </max_force>
+			<min_force> -10000.0 </min_force>
+			<optimal_force> 1000.0 </optimal_force>
+			<coordinate> </coordinate>
+		</GeneralizedForce>
+
+	</defaults>
+
+	<objects>
+
+		<PassiveJointTorque name="hip_ligaments">
+			<coordinate> hip_angle_r </coordinate>
+			<optimal_force> 1</optimal_force>
+			<!--Slope of the passive restraining torque for the positive end of the ROM of the generalized coordinate (>0).-->
+				<slope1>      40.00000000 </slope1>
+			<!--The positive (or most positive) end of the ROM for the generalized coordinate in degrees.-->
+				<limit1>      120.00000000 </limit1>
+			<!--Slope of the passive restraining torque for the negative end of the ROM of the generalized coordinate (>0).-->
+				<slope2>      40.00000000 </slope2>
+			<!--The negative (or least positive) end of the ROM for the generalized coordinate in degrees.-->
+				<limit2>     -120.00000000 </limit2>
+			<!--Parameter used to tune the location in the ROM where the 0 restraining moment occurs.-->
+				<offset>       0.00000000 </offset>
+			<!--Damping cooefficient for the generalized coordinate.-->
+				<damping>       0.30000000 </damping>
+		</PassiveJointTorque>
+		<PassiveJointTorque name="knee_ligaments">
+			<coordinate> knee_angle_r </coordinate>
+			<optimal_force> 1 </optimal_force>
+			<!--Slope of the passive restraining torque for the positive end of the ROM of the generalized coordinate (>0).-->
+				<slope1>      40.00000000 </slope1>
+			<!--The positive (or most positive) end of the ROM for the generalized coordinate in degrees.-->
+				<limit1>     10.00000000 </limit1>
+			<!--Slope of the passive restraining torque for the negative end of the ROM of the generalized coordinate (>0).-->
+				<slope2>      40.00000000 </slope2>
+			<!--The negative (or least positive) end of the ROM for the generalized coordinate in degrees.-->
+				<limit2>     -120.00000000 </limit2>
+			<!--Parameter used to tune the location in the ROM where the 0 restraining moment occurs.-->
+				<offset>       0.00000000 </offset>
+			<!--Damping cooefficient for the generalized coordinate.-->
+				<damping>       0.30000000 </damping>
+		</PassiveJointTorque>
+		
+
+	</objects>
+
+</ActuatorSet>
+

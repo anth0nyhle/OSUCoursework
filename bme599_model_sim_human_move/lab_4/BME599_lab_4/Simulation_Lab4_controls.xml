@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSimDocument Version="20101">
+	<ControlSet name="Control Set">
+		<objects>
+			<ControlLinear name="muscle_1.excitation">
+				<is_model_control> true </is_model_control>
+				<extrapolate> true </extrapolate>
+				<default_min> 0.0200000000000000 </default_min>
+				<default_max> 1.0000000000000000 </default_max>
+				<filter_on> false </filter_on>
+				<use_steps> false </use_steps>
+				<x_nodes>
+					<ControlLinearNode name="">
+						<t> 0.0000000000000000 </t>
+						<value> 0.5000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 0.1000000000000000 </t>
+						<value> 0.5000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 0.2000000000000000 </t>
+						<value> 0.0000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 0.3000000000000000 </t>
+						<value> 0.0000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 0.4000000000000000 </t>
+						<value> 1.0000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 0.5000000000000000 </t>
+						<value> 1.0000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 0.6000000000000000 </t>
+						<value> 0.0000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 0.7000000000000000 </t>
+						<value> 0.0000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 0.8000000000000000 </t>
+						<value> 0.0000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 0.9000000000000000 </t>
+						<value> 0.0000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 1.0000000000000000 </t>
+						<value> 0.0000000000000000 </value>
+					</ControlLinearNode>
+				</x_nodes>
+				<min_nodes/>
+				<max_nodes/>
+				<kp> 100.0000000000000000 </kp>
+				<kv> 20.0000000000000000 </kv>
+			</ControlLinear>
+			<ControlLinear name="muscle_2.excitation">
+				<is_model_control> true </is_model_control>
+				<extrapolate> true </extrapolate>
+				<default_min> 0.0200000000000000 </default_min>
+				<default_max> 1.0000000000000000 </default_max>
+				<filter_on> false </filter_on>
+				<use_steps> false </use_steps>
+				<x_nodes>
+					<ControlLinearNode name="">
+						<t> 0.0000000000000000 </t>
+						<value> 0.0000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 0.1000000000000000 </t>
+						<value> 0.0000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 0.2000000000000000 </t>
+						<value> 0.5000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 0.3000000000000000 </t>
+						<value> 0.5000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 0.4000000000000000 </t>
+						<value> 0.0000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 0.5000000000000000 </t>
+						<value> 0.0000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 0.6000000000000000 </t>
+						<value> 1.0000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 0.7000000000000000 </t>
+						<value> 1.0000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 0.8000000000000000 </t>
+						<value> 1.0000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 0.9000000000000000 </t>
+						<value> 1.0000000000000000 </value>
+					</ControlLinearNode>
+					<ControlLinearNode name="">
+						<t> 1.0000000000000000 </t>
+						<value> 1.0000000000000000 </value>
+					</ControlLinearNode>
+				</x_nodes>
+				<min_nodes/>
+				<max_nodes/>
+				<kp> 100.0000000000000000 </kp>
+				<kv> 20.0000000000000000 </kv>
+			</ControlLinear>
+		</objects>
+		<groups/>
+	</ControlSet>
+</OpenSimDocument>
+
